@@ -1,0 +1,58 @@
+version: '3'
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    hostname: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: db
+    ports:
+      - 192.168.141.1:5432:5432
+    volumes:
+      - ./storage/pgdb:/var/lib/postgresql/data
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    hostname: prometheus
+    volumes:
+      - ./docker/dev/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./storage/prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - 9090:9090
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    hostname: grafana
+    links:
+      - prometheus:prometheus
+    volumes:
+      - ./storage/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=root
+      - GF_SECURITY_ADMIN_PASSWORD=root
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - 3000:3000
+
+  mailer:
+    image: mailhog/mailhog
+    container_name: mailer
+    hostname: mailer
+    ports:
+      - 192.168.141.1:8025:8025
+      - 192.168.141.1:1025:1025
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.141.0/24

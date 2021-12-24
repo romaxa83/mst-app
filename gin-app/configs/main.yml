@@ -1,0 +1,20 @@
+http:
+  port: 8080
+  maxHeaderBytes: 1
+  readTimeout: 10s
+  writeTimeout: 10s
+
+auth:
+  accessTokenTTL: 20m # min
+  refreshTokenTTL: 60m # min
+  verificationCodeLength: 8
+
+fileStorage:
+  url: ams3.digitaloceanspaces.com
+  bucket: courses
+
+email:
+  templates:
+    verification_email: "./templates/verification_email.html"
+  subjects:
+    verification_email: "Спасибо за регистрацию, %s!"
