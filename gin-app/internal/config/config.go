@@ -29,6 +29,7 @@ type (
 		Email       EmailConfig
 		SMTP        SMTPConfig
 		FileStorage FileStorageConfig
+		FtpStorage  FtpStorageConfig
 	}
 
 	HTTPConfig struct {
@@ -81,10 +82,16 @@ type (
 	}
 
 	FileStorageConfig struct {
-		Endpoint  string
-		Bucket    string
-		AccessKey string
-		SecretKey string
+		Driver string
+	}
+
+	FtpStorageConfig struct {
+		BaseUrl  string
+		Host     string
+		Port     string
+		Username string
+		Password string
+		TimeOut  int
 	}
 )
 
@@ -117,6 +124,10 @@ func unmarshal(cfg *Config) error {
 	}
 
 	if err := viper.UnmarshalKey("fileStorage", &cfg.FileStorage); err != nil {
+		return err
+	}
+
+	if err := viper.UnmarshalKey("ftpStorage", &cfg.FtpStorage); err != nil {
 		return err
 	}
 
@@ -158,10 +169,14 @@ func setFromEnv(cfg *Config) {
 	cfg.SMTP.From = os.Getenv("SMTP_FROM")
 	cfg.SMTP.Pass = os.Getenv("SMTP_PASSWORD")
 
-	cfg.FileStorage.Endpoint = os.Getenv("STORAGE_ENDPOINT")
-	cfg.FileStorage.AccessKey = os.Getenv("STORAGE_ACCESS_KEY")
-	cfg.FileStorage.SecretKey = os.Getenv("STORAGE_SECRET_KEY")
-	cfg.FileStorage.Bucket = os.Getenv("STORAGE_BUCKET")
+	cfg.FileStorage.Driver = os.Getenv("STORAGE_DRIVER")
+
+	cfg.FtpStorage.BaseUrl = os.Getenv("STORAGE_BASE_URL")
+	cfg.FtpStorage.Host = os.Getenv("STORAGE_FTP_HOST")
+	cfg.FtpStorage.Port = os.Getenv("STORAGE_FTP_PORT")
+	cfg.FtpStorage.Username = os.Getenv("STORAGE_FTP_USERNAME")
+	cfg.FtpStorage.Password = os.Getenv("STORAGE_FTP_PASSWORD")
+	cfg.FtpStorage.TimeOut, _ = strconv.Atoi(os.Getenv("STORAGE_FTP_TIMEOUT"))
 }
 
 func parseConfigFile(folder, env string) error {

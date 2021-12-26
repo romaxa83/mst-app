@@ -75,10 +75,10 @@ type UploadInput struct {
 
 type Files interface {
 	UploadAndSaveFile(ctx context.Context, file domains.File) (string, error)
-	Save(ctx context.Context, file domains.File) (int, error)
-	//UpdateStatus(ctx context.Context, fileName string, status domain.FileStatus) error // TODO check schoolID
-	//GetByID(ctx context.Context, id, schoolId primitive.ObjectID) (domain.File, error)
-	//InitStorageUploaderWorkers(ctx context.Context)
+	Save(ctx context.Context, file domains.File) (domains.File, error)
+	UpdateStatus(ctx context.Context, fileName string, status domains.FileStatus) error
+	GetByID(ctx context.Context, id string) (domains.File, error)
+	InitStorageUploaderWorkers(ctx context.Context)
 }
 
 type Services struct {

@@ -31,11 +31,11 @@ type TodoItem interface {
 }
 
 type Files interface {
-	Create(ctx context.Context, file domains.File) (int, error)
-	//UpdateStatus(ctx context.Context, fileName string, status domain.FileStatus) error
-	//GetForUploading(ctx context.Context) (domain.File, error)
-	//UpdateStatusAndSetURL(ctx context.Context, id primitive.ObjectID, url string) error
-	//GetByID(ctx context.Context, id, schoolID primitive.ObjectID) (domain.File, error)
+	Create(ctx context.Context, file domains.File) (domains.File, error)
+	UpdateStatus(ctx context.Context, id string, status domains.FileStatus) error
+	GetForUploading(ctx context.Context) (domains.File, error)
+	UpdateStatusAndSetURL(ctx context.Context, id, url string) error
+	GetByID(ctx context.Context, id string) (domains.File, error)
 }
 
 type Repositories struct {

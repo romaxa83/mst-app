@@ -25,10 +25,10 @@ const (
 type File struct {
 	ID              int        `json:"-" db:"id"`
 	Type            FileType   `json:"type"`
-	ContentType     string     `json:"contentType" bson:"contentType"`
-	Name            string     `json:"name" bson:"name"`
-	Size            int64      `json:"size" bson:"size"`
-	Status          FileStatus `json:"status" bson:"status,omitempty"`
-	UploadStartedAt time.Time  `json:"uploadStartedAt" bson:"uploadStartedAt"`
-	URL             string     `json:"url" bson:"url,omitempty"`
+	ContentType     string     `json:"contentType" db:"content_type"`
+	Name            string     `json:"name"`
+	Size            int64      `json:"size"`
+	Status          FileStatus `json:"status"`
+	UploadStartedAt time.Time  `json:"uploadStartedAt" bson:"upload_started_at"`
+	URL             string     `json:"url"`
 }

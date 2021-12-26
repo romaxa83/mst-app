@@ -53,8 +53,8 @@ CREATE TABLE media
 (
     id                bigserial not null unique primary key,
     type              varchar(255) not null,
-    content_type      varchar(255) not null unique,
-    name              varchar(255) unique,
+    content_type      varchar(255) not null,
+    name              varchar(255) ,
     size              varchar(255) not null,
     status            int default '0' not null,
     url               varchar(255) unique,

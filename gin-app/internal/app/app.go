@@ -81,7 +81,7 @@ func Run() {
 		logger.Error(err)
 		return
 	}
-	logger.Info("Init storageProvider")
+	logger.Infof("Init storageProvider [%s]", cfg.FileStorage.Driver)
 
 	tokenManager, err := auth.NewManager(cfg.Auth.JWT.SigningKey)
 	if err != nil {
@@ -111,6 +111,9 @@ func Run() {
 	})
 	handlers := delivery.NewHandler(services, tokenManager)
 
+	services.Files.InitStorageUploaderWorkers(context.Background())
+
+	// HTTP Server
 	srv := server.NewServer(cfg, handlers.Init(cfg))
 	go func() {
 		if err := srv.Run(); !errors.Is(err, http.ErrServerClosed) {
@@ -143,7 +146,14 @@ func Run() {
 
 func newStorageProvider(cfg *config.Config) (storage.Provider, error) {
 
-	provider := storage.NewFileStorage(cfg.FileStorage.Bucket, cfg.FileStorage.Endpoint)
+	provider := storage.NewFileStorage(
+		cfg.FtpStorage.BaseUrl,
+		cfg.FtpStorage.Host,
+		cfg.FtpStorage.Port,
+		cfg.FtpStorage.Username,
+		cfg.FtpStorage.Password,
+		cfg.FtpStorage.TimeOut,
+	)
 
 	return provider, nil
 }
