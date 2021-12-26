@@ -1,0 +1,114 @@
+package config
+
+import (
+	"os"
+	"time"
+
+	"github.com/spf13/viper"
+)
+
+const (
+	defaultHTTPPort               = "8060"
+	defaultHTTPRWTimeout          = 10 * time.Second
+	defaultHTTPMaxHeaderMegabytes = 1
+
+	EnvLocal = "local"
+	Prod     = "prod"
+)
+
+type (
+	Config struct {
+		Environment string
+		AppUrl      string
+		HTTP        HTTPConfig
+		Postgres    PostgresConfig
+	}
+
+	HTTPConfig struct {
+		Host               string        `mapstructure:"host"`
+		Port               string        `mapstructure:"port"`
+		ReadTimeout        time.Duration `mapstructure:"readTimeout"`
+		WriteTimeout       time.Duration `mapstructure:"writeTimeout"`
+		MaxHeaderMegabytes int           `mapstructure:"maxHeaderBytes"`
+	}
+
+	PostgresConfig struct {
+		Host     string
+		Port     string
+		Username string
+		Password string
+		DBName   string
+		SSLMode  string
+	}
+)
+
+// Init populates Config struct with values from config file
+// located at filepath and environment variables.
+func Init(configsDir string) (*Config, error) {
+	populateDefaults()
+
+	if err := parseConfigFile(configsDir, os.Getenv("APP_ENV")); err != nil {
+		return nil, err
+	}
+
+	var cfg Config
+	if err := unmarshal(&cfg); err != nil {
+		return nil, err
+	}
+
+	setFromEnv(&cfg)
+
+	return &cfg, nil
+}
+
+func unmarshal(cfg *Config) error {
+	if err := viper.UnmarshalKey("http", &cfg.HTTP); err != nil {
+		return err
+	}
+
+	if err := viper.UnmarshalKey("postgres", &cfg.Postgres); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func setFromEnv(cfg *Config) {
+	// TODO use envconfig https://github.com/kelseyhightower/envconfig
+	cfg.Postgres.Host = os.Getenv("DB_HOST")
+	cfg.Postgres.Port = os.Getenv("DB_PORT")
+	cfg.Postgres.Username = os.Getenv("DB_USER")
+	cfg.Postgres.Password = os.Getenv("DB_PASSWORD")
+	cfg.Postgres.DBName = os.Getenv("DB_NAME")
+	cfg.Postgres.SSLMode = os.Getenv("DB_SSL_MODE")
+
+	cfg.Environment = os.Getenv("APP_ENV")
+
+	cfg.HTTP.Host = os.Getenv("HTTP_HOST")
+	cfg.HTTP.Port = os.Getenv("HTTP_PORT")
+}
+
+func parseConfigFile(folder, env string) error {
+	viper.AddConfigPath(folder)
+	viper.SetConfigName("main")
+
+	if err := viper.ReadInConfig(); err != nil {
+		return err
+	}
+
+	if env == EnvLocal {
+		return nil
+	}
+
+	viper.SetConfigName(env)
+
+	return viper.MergeInConfig()
+}
+
+func populateDefaults() {
+
+	viper.SetDefault("http.port", defaultHTTPPort)
+	viper.SetDefault("http.max_header_megabytes", defaultHTTPMaxHeaderMegabytes)
+	viper.SetDefault("http.timeouts.read", defaultHTTPRWTimeout)
+	viper.SetDefault("http.timeouts.write", defaultHTTPRWTimeout)
+}

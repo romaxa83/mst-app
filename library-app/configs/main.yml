@@ -1,0 +1,6 @@
+http:
+  port: 8060
+  maxHeaderBytes: 1
+  readTimeout: 10s
+  writeTimeout: 10s
+
