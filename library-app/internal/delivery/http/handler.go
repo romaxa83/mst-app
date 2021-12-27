@@ -50,7 +50,10 @@ func (h *Handler) Init(cfg *config.Config) *gin.Engine {
 		category := api.Group("/categories")
 		{
 			category.POST("/", h.createCategory)
-			//items.POST("/", h.createItem)
+			category.GET("/", h.getAllCategory)
+			category.GET("/:id", h.getOneCategory)
+			category.PUT("/:id", h.updateCategory)
+			category.DELETE("/:id", h.deleteCategory)
 		}
 	}
 

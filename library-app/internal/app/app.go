@@ -7,9 +7,11 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/romaxa83/mst-app/library-app/internal/config"
 	delivery "github.com/romaxa83/mst-app/library-app/internal/delivery/http"
+	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/internal/repositories"
 	"github.com/romaxa83/mst-app/library-app/internal/server"
 	"github.com/romaxa83/mst-app/library-app/internal/services"
+	"github.com/romaxa83/mst-app/library-app/pkg/db"
 	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"net/http"
 	"os"
@@ -51,21 +53,27 @@ func Run() {
 	}
 	logger.Info("Init config")
 
-	//db, err := db.NewClient(
-	//	cfg.Postgres.Host,
-	//	cfg.Postgres.Port,
-	//	cfg.Postgres.Username,
-	//	cfg.Postgres.Password,
-	//	cfg.Postgres.DBName,
-	//	cfg.Postgres.SSLMode)
-	//if err != nil {
-	//	logger.Error("failed init db: %s", err.Error())
-	//}
+	db, err := db.NewClient(
+		cfg.Postgres.Host,
+		cfg.Postgres.Port,
+		cfg.Postgres.Username,
+		cfg.Postgres.Password,
+		cfg.Postgres.DBName,
+		cfg.Postgres.SSLMode)
+	if err != nil {
+		logger.Error("failed init db: %s", err.Error())
+	}
+
+	// migrate
+	if err := models.InitModels(db); err != nil {
+		logger.Error("failed init db: %s", err.Error())
+	}
 
 	// Services, Repos & API Handlers
-	repos := repositories.NewRepositories()
+	repos := repositories.NewRepositories(db)
 	services := services.NewServices(services.Deps{
-		Repos: repos})
+		Repos: repos,
+	})
 	handlers := delivery.NewHandler(services)
 
 	// HTTP Server
@@ -94,7 +102,7 @@ func Run() {
 		logger.Errorf("failed to stop server: %v", err)
 	}
 
-	//if err := db.Close(); err != nil {
+	//if err := db.; err != nil {
 	//	logger.Errorf("error occured on db connection close: %v", err)
 	//}
 }

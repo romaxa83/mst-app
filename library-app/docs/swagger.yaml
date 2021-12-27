@@ -1,32 +1,58 @@
-basePath: /api/v1/
+basePath: /api
 definitions:
-  http.inputCreateCategory:
-    type: object
   http.response:
     properties:
       message:
         type: string
     type: object
-host: localhost:8080
+  input.CreateCategory:
+    properties:
+      desc:
+        type: string
+      title:
+        maxLength: 256
+        type: string
+    required:
+    - title
+    type: object
+  input.UpdateCategory:
+    properties:
+      active:
+        type: boolean
+      desc:
+        type: string
+      sort:
+        type: integer
+      title:
+        maxLength: 256
+        type: string
+    type: object
+  resources.CategoryResource:
+    properties:
+      active:
+        type: boolean
+      desc:
+        type: string
+      id:
+        type: integer
+      sort:
+        type: integer
+      title:
+        type: string
+    type: object
+host: localhost:8060
 info:
   contact: {}
   description: API Server for Library project
   title: Library App API
   version: "1.0"
 paths:
-  /api/v1/lists:
-    post:
+  /api/categories:
+    get:
       consumes:
       - application/json
-      description: create categories of books
-      operationId: create-category
-      parameters:
-      - description: category info
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/http.inputCreateCategory'
+      description: get all categories
+      operationId: get-all-category
       produces:
       - application/json
       responses:
@@ -50,7 +76,146 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/http.response'
+      summary: Get all categories
+      tags:
+      - category
+    post:
+      consumes:
+      - application/json
+      description: create categories of books
+      operationId: create-category
+      parameters:
+      - description: category info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.CreateCategory'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/resources.CategoryResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
       summary: Create category
+      tags:
+      - category
+  /api/categories/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete category of books (soft)
+      operationId: delete-category
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Delete category (soft)
+      tags:
+      - category
+    get:
+      consumes:
+      - application/json
+      description: get one category by id
+      operationId: get-one-category
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.CategoryResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get one category
+      tags:
+      - category
+    put:
+      consumes:
+      - application/json
+      description: update category of books
+      operationId: update-category
+      parameters:
+      - description: category info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.UpdateCategory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.CategoryResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Update category
       tags:
       - category
 securityDefinitions:
