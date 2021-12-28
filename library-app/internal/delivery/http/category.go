@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/input"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
-	"github.com/romaxa83/mst-app/library-app/internal/models"
+	"github.com/romaxa83/mst-app/library-app/pkg/db"
 	"net/http"
 	"strconv"
 )
@@ -38,32 +38,60 @@ func (h *Handler) createCategory(c *gin.Context) {
 	c.JSON(http.StatusCreated, resources.NewCategoryResource(result))
 }
 
-type getAllListsResponse struct {
-	Data []models.Category `json:"data"`
-}
-
-// @Summary Get all categories
+// @Summary Get all categories paginator
 // @Tags category
-// @Description get all categories
-// @ID get-all-category
+// @Description get all categories with pagination data
+// @ID get-all-category-pagination
 // @Accept  json
 // @Produce  json
-// @Success 200 {integer} getAllListsResponse
+// @Param limit query int false "limit"
+// @Success 200 {object} db.Pagination
 // @Failure 400,404 {object} response
 // @Failure 500 {object} response
 // @Failure default {object} response
 // @Router /api/categories [get]
 func (h *Handler) getAllCategory(c *gin.Context) {
+	var query db.Pagination
+	if err := c.Bind(&query); err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
 
-	results, err := h.services.Category.GetAll()
+	//logger.Infof("%+v", query)
+
+	results, err := h.services.Category.GetAllPagination(query)
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, getAllListsResponse{
-		Data: results,
-	})
+	c.JSON(http.StatusOK, results)
+}
+
+type getAllListsResponse struct {
+	Rows interface{} `json:"rows"`
+}
+
+// @Summary Get all categories list
+// @Tags category
+// @Description get all categories list
+// @ID get-all-category-list
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} getAllListsResponse
+// @Failure 400,404 {object} response
+// @Failure 500 {object} response
+// @Failure default {object} response
+// @Router /api/categories/list [get]
+func (h *Handler) getAllCategoryList(c *gin.Context) {
+
+	results, err := h.services.Category.GetAllList()
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, getAllListsResponse{results})
 }
 
 // @Summary Get one category

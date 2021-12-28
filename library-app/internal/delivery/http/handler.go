@@ -51,6 +51,7 @@ func (h *Handler) Init(cfg *config.Config) *gin.Engine {
 		{
 			category.POST("/", h.createCategory)
 			category.GET("/", h.getAllCategory)
+			category.GET("/list", h.getAllCategoryList)
 			category.GET("/:id", h.getOneCategory)
 			category.PUT("/:id", h.updateCategory)
 			category.DELETE("/:id", h.deleteCategory)

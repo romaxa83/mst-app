@@ -2,7 +2,9 @@ package repositories
 
 import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/input"
+	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
+	"github.com/romaxa83/mst-app/library-app/pkg/db"
 	"gorm.io/gorm"
 )
 
@@ -28,16 +30,31 @@ func (r *CategoryRepo) Create(input input.CreateCategory) (models.Category, erro
 	return model, nil
 }
 
-func (r *CategoryRepo) GetAll() ([]models.Category, error) {
+func (r *CategoryRepo) GetAllPagination(pagination db.Pagination) (db.Pagination, error) {
+	//logger.Infof("%+v", pagination)
 
-	var models []models.Category
+	var categories []*models.Category
 
-	result := r.db.Find(&models)
+	r.db.Scopes(db.Paginate(categories, &pagination, r.db)).Find(&categories)
+	pagination.Rows = categories
+
+	return pagination, nil
+}
+
+type APIUser struct {
+	Sort  int    `json:"title"`
+	Title string `json:"sort"`
+}
+
+func (r *CategoryRepo) GetAllList() ([]resources.CategoryResource, error) {
+
+	var resources []resources.CategoryResource
+	result := r.db.Model(&models.Category{}).Find(&resources)
 	if result.Error != nil {
-		return models, result.Error
+		return resources, result.Error
 	}
 
-	return models, nil
+	return resources, nil
 }
 
 func (r *CategoryRepo) GetOneById(id int) (models.Category, error) {

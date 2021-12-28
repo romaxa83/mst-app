@@ -25,7 +25,7 @@ var doc = `{
     "paths": {
         "/api/categories": {
             "get": {
-                "description": "get all categories",
+                "description": "get all categories with pagination data",
                 "consumes": [
                     "application/json"
                 ],
@@ -35,13 +35,21 @@ var doc = `{
                 "tags": [
                     "category"
                 ],
-                "summary": "Get all categories",
-                "operationId": "get-all-category",
+                "summary": "Get all categories paginator",
+                "operationId": "get-all-category-pagination",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "limit",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/db.Pagination"
                         }
                     },
                     "400": {
@@ -278,9 +286,84 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/api/categories/list": {
+            "get": {
+                "description": "get all categories list",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "Get all categories list",
+                "operationId": "get-all-category-list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/http.getAllListsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/http.response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/http.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/http.response"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/http.response"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "db.Pagination": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "rows": {},
+                "sort": {
+                    "type": "string"
+                },
+                "totalPages": {
+                    "type": "integer"
+                },
+                "totalRows": {
+                    "type": "integer"
+                }
+            }
+        },
+        "http.getAllListsResponse": {
+            "type": "object",
+            "properties": {
+                "rows": {}
+            }
+        },
         "http.response": {
             "type": "object",
             "properties": {

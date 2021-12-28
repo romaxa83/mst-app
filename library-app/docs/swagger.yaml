@@ -1,5 +1,23 @@
 basePath: /api
 definitions:
+  db.Pagination:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+      rows: {}
+      sort:
+        type: string
+      totalPages:
+        type: integer
+      totalRows:
+        type: integer
+    type: object
+  http.getAllListsResponse:
+    properties:
+      rows: {}
+    type: object
   http.response:
     properties:
       message:
@@ -51,15 +69,20 @@ paths:
     get:
       consumes:
       - application/json
-      description: get all categories
-      operationId: get-all-category
+      description: get all categories with pagination data
+      operationId: get-all-category-pagination
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: integer
+            $ref: '#/definitions/db.Pagination'
         "400":
           description: Bad Request
           schema:
@@ -76,7 +99,7 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/http.response'
-      summary: Get all categories
+      summary: Get all categories paginator
       tags:
       - category
     post:
@@ -216,6 +239,38 @@ paths:
           schema:
             $ref: '#/definitions/http.response'
       summary: Update category
+      tags:
+      - category
+  /api/categories/list:
+    get:
+      consumes:
+      - application/json
+      description: get all categories list
+      operationId: get-all-category-list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.getAllListsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get all categories list
       tags:
       - category
 securityDefinitions:
