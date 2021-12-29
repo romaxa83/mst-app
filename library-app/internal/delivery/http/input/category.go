@@ -16,6 +16,14 @@ type UpdateCategory struct {
 	Sort   *int    `json:"sort"`
 }
 
+type CategoryFilterQuery struct {
+	Active *bool `form:"active"`
+	Sort   *int  `form:"sort"`
+	Id     *int  `form:"id"`
+}
+
 type GetCategoryQuery struct {
-	pagination db.Pagination
+	Pagination db.Pagination
+	Search     db.SearchQuery
+	CategoryFilterQuery
 }

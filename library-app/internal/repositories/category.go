@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"fmt"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/input"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
@@ -30,20 +31,38 @@ func (r *CategoryRepo) Create(input input.CreateCategory) (models.Category, erro
 	return model, nil
 }
 
-func (r *CategoryRepo) GetAllPagination(pagination db.Pagination) (db.Pagination, error) {
-	//logger.Infof("%+v", pagination)
+func (r *CategoryRepo) GetAllPagination(query input.GetCategoryQuery) (db.Pagination, error) {
+	category := models.Category{}
+	pagination := query.Pagination
+	var resources []*resources.CategoryResource
 
-	var categories []*models.Category
+	q := r.db.Model(&category)
 
-	r.db.Scopes(db.Paginate(categories, &pagination, r.db)).Find(&categories)
-	pagination.Rows = categories
+	id := query.CategoryFilterQuery.Id
+	if id != nil {
+		q.Where("id = ?", *id)
+	}
+
+	active := query.CategoryFilterQuery.Active
+	if active != nil {
+		q.Where("active = ?", *active)
+	}
+
+	sort := query.CategoryFilterQuery.Sort
+	if sort != nil {
+		q.Where("sort = ?", *sort)
+	}
+
+	search := query.Search.Search
+	if search != "" {
+		q.Where("title LIKE ?", fmt.Sprintf("%s%%", search))
+	}
+
+	q = q.Scopes(db.Paginate(&category, &pagination, r.db)).Find(&resources)
+
+	pagination.Rows = resources
 
 	return pagination, nil
-}
-
-type APIUser struct {
-	Sort  int    `json:"title"`
-	Title string `json:"sort"`
 }
 
 func (r *CategoryRepo) GetAllList() ([]resources.CategoryResource, error) {

@@ -76,6 +76,30 @@ paths:
         in: query
         name: limit
         type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: sort
+        in: query
+        name: sort
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: id
+        in: query
+        name: id
+        type: integer
+      - description: active
+        in: query
+        name: active
+        type: boolean
+      - description: sort
+        in: query
+        name: sort
+        type: integer
       produces:
       - application/json
       responses:

@@ -10,7 +10,7 @@ import (
 
 type Category interface {
 	Create(input input.CreateCategory) (models.Category, error)
-	GetAllPagination(pagination db.Pagination) (db.Pagination, error)
+	GetAllPagination(query input.GetCategoryQuery) (db.Pagination, error)
 	GetAllList() ([]resources.CategoryResource, error)
 	GetOneById(id int) (models.Category, error)
 	Update(id int, input input.UpdateCategory) (models.Category, error)
