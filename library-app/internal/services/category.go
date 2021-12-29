@@ -24,6 +24,10 @@ func (s *CategoryService) GetAllPagination(query input.GetCategoryQuery) (db.Pag
 	return s.repo.GetAllPagination(query)
 }
 
+func (s *CategoryService) GetAllPaginationArchive(query input.GetCategoryQuery) (db.Pagination, error) {
+	return s.repo.GetAllPaginationArchive(query)
+}
+
 func (s *CategoryService) GetAllList() ([]resources.CategoryResource, error) {
 	return s.repo.GetAllList()
 }
@@ -38,4 +42,8 @@ func (s *CategoryService) Update(id int, input input.UpdateCategory) (models.Cat
 
 func (s *CategoryService) Delete(id int) error {
 	return s.repo.Delete(id)
+}
+
+func (s *CategoryService) Restore(id int) (models.Category, error) {
+	return s.repo.Restore(id)
 }

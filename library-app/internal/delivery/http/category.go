@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/input"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
-	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"net/http"
 	"strconv"
 )
@@ -58,14 +57,13 @@ func (h *Handler) createCategory(c *gin.Context) {
 // @Router /api/categories [get]
 func (h *Handler) getAllCategory(c *gin.Context) {
 	var query input.GetCategoryQuery
-	//var query db.Pagination
 
 	if err := c.Bind(&query); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	logger.Infof("%+v", query)
+	//logger.Infof("%+v", query)
 
 	results, err := h.services.Category.GetAllPagination(query)
 	if err != nil {
@@ -190,4 +188,68 @@ func (h *Handler) deleteCategory(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusNoContent, response{"ok"})
+}
+
+// @Summary Archive categories paginator/filter
+// @Tags category
+// @Description Archive categories paginator/filter
+// @ID archive-categories
+// @Accept  json
+// @Produce  json
+// @Param limit query int false "limit"
+// @Param page query int false "page"
+// @Param sort query string false "sort"
+// @Param search query string false "search"
+// @Param id query int false "id"
+// @Param active query bool false "active"
+// @Param sort query int false "sort"
+// @Success 200 {object} db.Pagination
+// @Failure 400,404 {object} response
+// @Failure 500 {object} response
+// @Failure default {object} response
+// @Router /api/archive/categories [get]
+func (h *Handler) archiveCategory(c *gin.Context) {
+
+	var query input.GetCategoryQuery
+
+	if err := c.Bind(&query); err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	results, err := h.services.Category.GetAllPaginationArchive(query)
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, results)
+}
+
+// @Summary Restore category
+// @Tags category
+// @Description restore category from archive
+// @ID restore-category
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} resources.CategoryResource
+// @Failure 400,404 {object} response
+// @Failure 500 {object} response
+// @Failure default {object} response
+// @Router /api/archive/categories/restore/:id [put]
+func (h *Handler) restoreCategory(c *gin.Context) {
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	result, err := h.services.Category.Restore(id)
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, resources.NewCategoryResource(result))
 }

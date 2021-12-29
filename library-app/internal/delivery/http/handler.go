@@ -56,6 +56,12 @@ func (h *Handler) Init(cfg *config.Config) *gin.Engine {
 			category.PUT("/:id", h.updateCategory)
 			category.DELETE("/:id", h.deleteCategory)
 		}
+
+		archive := api.Group("/archive")
+		{
+			archive.GET("/categories", h.archiveCategory)
+			archive.PUT("/categories/restore/:id", h.restoreCategory)
+		}
 	}
 
 	return router

@@ -6,6 +6,7 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
+	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"gorm.io/gorm"
 )
 
@@ -37,6 +38,40 @@ func (r *CategoryRepo) GetAllPagination(query input.GetCategoryQuery) (db.Pagina
 	var resources []*resources.CategoryResource
 
 	q := r.db.Model(&category)
+
+	id := query.CategoryFilterQuery.Id
+	if id != nil {
+		q.Where("id = ?", *id)
+	}
+
+	active := query.CategoryFilterQuery.Active
+	if active != nil {
+		q.Where("active = ?", *active)
+	}
+
+	sort := query.CategoryFilterQuery.Sort
+	if sort != nil {
+		q.Where("sort = ?", *sort)
+	}
+
+	search := query.Search.Search
+	if search != "" {
+		q.Where("title LIKE ?", fmt.Sprintf("%s%%", search))
+	}
+
+	q = q.Scopes(db.Paginate(&category, &pagination, r.db)).Find(&resources)
+
+	pagination.Rows = resources
+
+	return pagination, nil
+}
+
+func (r *CategoryRepo) GetAllPaginationArchive(query input.GetCategoryQuery) (db.Pagination, error) {
+	category := models.Category{}
+	pagination := query.Pagination
+	var resources []*resources.CategoryResource
+
+	q := r.db.Unscoped().Model(&category).Where("deleted_at IS NOT NULL")
 
 	id := query.CategoryFilterQuery.Id
 	if id != nil {
@@ -121,4 +156,21 @@ func (r *CategoryRepo) Delete(id int) error {
 	}
 
 	return nil
+}
+
+func (r *CategoryRepo) Restore(id int) (models.Category, error) {
+
+	var model models.Category
+
+	result := r.db.Unscoped().Find(&model, id).First(&model)
+	if result.Error != nil {
+		return model, result.Error
+	}
+
+	logger.Warn(id)
+
+	r.db.Unscoped().Model(&model).UpdateColumn("deleted_at", "NULL")
+	//r.db.Save(&model)
+
+	return model, nil
 }

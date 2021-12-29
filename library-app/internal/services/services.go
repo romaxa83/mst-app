@@ -11,10 +11,12 @@ import (
 type Category interface {
 	Create(input input.CreateCategory) (models.Category, error)
 	GetAllPagination(query input.GetCategoryQuery) (db.Pagination, error)
+	GetAllPaginationArchive(query input.GetCategoryQuery) (db.Pagination, error)
 	GetAllList() ([]resources.CategoryResource, error)
 	GetOne(id int) (models.Category, error)
 	Update(id int, input input.UpdateCategory) (models.Category, error)
 	Delete(id int) error
+	Restore(id int) (models.Category, error)
 }
 
 type Services struct {
