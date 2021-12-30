@@ -23,6 +23,14 @@ definitions:
       message:
         type: string
     type: object
+  input.CreateAuthor:
+    properties:
+      name:
+        maxLength: 256
+        type: string
+    required:
+    - name
+    type: object
   input.CreateCategory:
     properties:
       desc:
@@ -43,6 +51,21 @@ definitions:
         type: integer
       title:
         maxLength: 256
+        type: string
+    type: object
+  resources.AuthorResource:
+    properties:
+      bio:
+        type: string
+      birthday:
+        type: string
+      country:
+        type: string
+      deathDate:
+        type: string
+      id:
+        type: integer
+      name:
         type: string
     type: object
   resources.CategoryResource:
@@ -126,6 +149,38 @@ paths:
       summary: Archive categories paginator/filter
       tags:
       - category
+  /api/archive/categories/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete category from archive (hard)
+      operationId: delete-category-archive
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Delete category from archive
+      tags:
+      - category
   /api/archive/categories/restore/:id:
     put:
       consumes:
@@ -158,6 +213,45 @@ paths:
       summary: Restore category
       tags:
       - category
+  /api/authors:
+    post:
+      consumes:
+      - application/json
+      description: create authors of books
+      operationId: create-author
+      parameters:
+      - description: author info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.CreateAuthor'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/resources.AuthorResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Create author
+      tags:
+      - author
   /api/categories:
     get:
       consumes:

@@ -5,7 +5,6 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/input"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"net/http"
-	"strconv"
 )
 
 // @Summary Create category
@@ -74,10 +73,6 @@ func (h *Handler) getAllCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, results)
 }
 
-type getAllListsResponse struct {
-	Rows interface{} `json:"rows"`
-}
-
 // @Summary Get all categories list
 // @Tags category
 // @Description get all categories list
@@ -113,13 +108,7 @@ func (h *Handler) getAllCategoryList(c *gin.Context) {
 // @Router /api/categories/:id [get]
 func (h *Handler) getOneCategory(c *gin.Context) {
 
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		errorResponse(c, http.StatusBadRequest, "invalid id param")
-		return
-	}
-
-	result, err := h.services.Category.GetOne(id)
+	result, err := h.services.Category.GetOne(getId(c))
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -148,13 +137,7 @@ func (h *Handler) updateCategory(c *gin.Context) {
 		return
 	}
 
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		errorResponse(c, http.StatusBadRequest, "invalid id param")
-		return
-	}
-
-	result, err := h.services.Category.Update(id, input)
+	result, err := h.services.Category.Update(getId(c), input)
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -176,13 +159,7 @@ func (h *Handler) updateCategory(c *gin.Context) {
 // @Router /api/categories/:id [delete]
 func (h *Handler) deleteCategory(c *gin.Context) {
 
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		errorResponse(c, http.StatusBadRequest, "invalid id param")
-		return
-	}
-
-	if err := h.services.Category.Delete(id); err != nil {
+	if err := h.services.Category.Delete(getId(c)); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -239,13 +216,7 @@ func (h *Handler) archiveCategory(c *gin.Context) {
 // @Router /api/archive/categories/restore/:id [put]
 func (h *Handler) restoreCategory(c *gin.Context) {
 
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		errorResponse(c, http.StatusBadRequest, "invalid id param")
-		return
-	}
-
-	result, err := h.services.Category.Restore(id)
+	result, err := h.services.Category.Restore(getId(c))
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -267,13 +238,7 @@ func (h *Handler) restoreCategory(c *gin.Context) {
 // @Router /api/archive/categories/:id [delete]
 func (h *Handler) deleteCategoryForce(c *gin.Context) {
 
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		errorResponse(c, http.StatusBadRequest, "invalid id param")
-		return
-	}
-
-	if err := h.services.Category.DeleteForce(id); err != nil {
+	if err := h.services.Category.DeleteForce(getId(c)); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
