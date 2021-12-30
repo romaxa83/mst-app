@@ -16,6 +16,7 @@ type Category interface {
 	GetOne(id int) (models.Category, error)
 	Update(id int, input input.UpdateCategory) (models.Category, error)
 	Delete(id int) error
+	DeleteForce(id int) error
 	Restore(id int) (models.Category, error)
 }
 

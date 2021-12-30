@@ -6,7 +6,6 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
-	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"gorm.io/gorm"
 )
 
@@ -167,10 +166,17 @@ func (r *CategoryRepo) Restore(id int) (models.Category, error) {
 		return model, result.Error
 	}
 
-	logger.Warn(id)
-
-	r.db.Unscoped().Model(&model).UpdateColumn("deleted_at", "NULL")
-	//r.db.Save(&model)
+	r.db.Unscoped().Model(&model).UpdateColumn("deleted_at", nil)
 
 	return model, nil
+}
+
+func (r *CategoryRepo) DeleteForce(id int) error {
+
+	result := r.db.Unscoped().Delete(&models.Category{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }

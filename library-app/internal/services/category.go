@@ -47,3 +47,7 @@ func (s *CategoryService) Delete(id int) error {
 func (s *CategoryService) Restore(id int) (models.Category, error) {
 	return s.repo.Restore(id)
 }
+
+func (s *CategoryService) DeleteForce(id int) error {
+	return s.repo.DeleteForce(id)
+}

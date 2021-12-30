@@ -65,6 +65,99 @@ info:
   title: Library App API
   version: "1.0"
 paths:
+  /api/archive/categories:
+    get:
+      consumes:
+      - application/json
+      description: Archive categories paginator/filter
+      operationId: archive-categories
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: sort
+        in: query
+        name: sort
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: id
+        in: query
+        name: id
+        type: integer
+      - description: active
+        in: query
+        name: active
+        type: boolean
+      - description: sort
+        in: query
+        name: sort
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.Pagination'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Archive categories paginator/filter
+      tags:
+      - category
+  /api/archive/categories/restore/:id:
+    put:
+      consumes:
+      - application/json
+      description: restore category from archive
+      operationId: restore-category
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.CategoryResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Restore category
+      tags:
+      - category
   /api/categories:
     get:
       consumes:

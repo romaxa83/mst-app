@@ -61,6 +61,7 @@ func (h *Handler) Init(cfg *config.Config) *gin.Engine {
 		{
 			archive.GET("/categories", h.archiveCategory)
 			archive.PUT("/categories/restore/:id", h.restoreCategory)
+			archive.DELETE("/categories/:id", h.deleteCategoryForce)
 		}
 	}
 

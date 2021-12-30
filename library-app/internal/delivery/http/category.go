@@ -253,3 +253,30 @@ func (h *Handler) restoreCategory(c *gin.Context) {
 
 	c.JSON(http.StatusOK, resources.NewCategoryResource(result))
 }
+
+// @Summary Delete category from archive
+// @Tags category
+// @Description delete category from archive (hard)
+// @ID delete-category-archive
+// @Accept  json
+// @Produce  json
+// @Success 204 {object} response
+// @Failure 400,404 {object} response
+// @Failure 500 {object} response
+// @Failure default {object} response
+// @Router /api/archive/categories/:id [delete]
+func (h *Handler) deleteCategoryForce(c *gin.Context) {
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	if err := h.services.Category.DeleteForce(id); err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusNoContent, response{"ok"})
+}

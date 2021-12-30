@@ -2,6 +2,9 @@
 #=================================
 # Command for App
 
+.PHONY: init
+init:
+
 .PHONY: info
 info: ps info_domen
 
