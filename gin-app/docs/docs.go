@@ -38,7 +38,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "todo-items"
+                    "todo.txt-items"
                 ],
                 "summary": "Get All Items",
                 "operationId": "get-all-items",
@@ -91,7 +91,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "todo-items"
+                    "todo.txt-items"
                 ],
                 "summary": "Get One Item",
                 "operationId": "get-one-items",
@@ -142,7 +142,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "todo-items"
+                    "todo.txt-items"
                 ],
                 "summary": "Update Item",
                 "operationId": "update-item",
@@ -204,7 +204,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "todo-items"
+                    "todo.txt-items"
                 ],
                 "summary": "Delete Item (soft)",
                 "operationId": "delete-list",
@@ -257,7 +257,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "todo-lists"
+                    "todo.txt-lists"
                 ],
                 "summary": "Get All Lists",
                 "operationId": "get-all-lists",
@@ -308,7 +308,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "todo-lists"
+                    "todo.txt-lists"
                 ],
                 "summary": "Create List",
                 "operationId": "create-list",
@@ -372,7 +372,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "todo-lists"
+                    "todo.txt-lists"
                 ],
                 "summary": "Get One List",
                 "operationId": "get-one-lists",
@@ -423,7 +423,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "todo-lists"
+                    "todo.txt-lists"
                 ],
                 "summary": "Update List",
                 "operationId": "update-list",
@@ -485,7 +485,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "todo-lists"
+                    "todo.txt-lists"
                 ],
                 "summary": "Delete List (soft)",
                 "operationId": "delete-list",
@@ -530,7 +530,7 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "create items for todo-list",
+                "description": "create items for todo.txt-list",
                 "consumes": [
                     "application/json"
                 ],
@@ -538,7 +538,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "todo-items"
+                    "todo.txt-items"
                 ],
                 "summary": "Create Item",
                 "operationId": "create-item",

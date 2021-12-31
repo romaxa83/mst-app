@@ -6,7 +6,6 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
-	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"gorm.io/gorm"
 )
 
@@ -84,9 +83,6 @@ func (r *BookRepo) Update(id int, input input.UpdateBook) (models.Book, error) {
 		return model, err
 	}
 
-	logger.Warnf("%+v", input)
-	logger.Warn("%s", *input.AuthorID)
-
 	if nil != input.Title {
 		model.Title = *input.Title
 	}
@@ -109,14 +105,11 @@ func (r *BookRepo) Update(id int, input input.UpdateBook) (models.Book, error) {
 		model.Qty = *input.Qty
 	}
 	if nil != input.AuthorID {
-
-		//r.db.Model(&model).UpdateColumn("author_id", *input.AuthorID)
-		model.AuthorID = *input.AuthorID
-		//model.AuthorID = 5
+		var a models.Author
+		r.db.Find(&a, *input.AuthorID).First(&a)
+		model.Author = a
 	}
-	logger.Warnf("%+v", model)
-	r.db.Save(&model)
-	logger.Warnf("%+v", model)
+	r.db.Session(&gorm.Session{FullSaveAssociations: true}).Save(&input)
 
 	return model, nil
 }

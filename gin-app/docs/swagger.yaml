@@ -156,7 +156,7 @@ paths:
       - ApiKeyAuth: []
       summary: Get All Items
       tags:
-      - todo-items
+      - todo.txt-items
   /api/v1/items/:id:
     delete:
       consumes:
@@ -190,7 +190,7 @@ paths:
       - ApiKeyAuth: []
       summary: Delete Item (soft)
       tags:
-      - todo-items
+      - todo.txt-items
     get:
       consumes:
       - application/json
@@ -223,7 +223,7 @@ paths:
       - ApiKeyAuth: []
       summary: Get One Item
       tags:
-      - todo-items
+      - todo.txt-items
     put:
       consumes:
       - application/json
@@ -263,7 +263,7 @@ paths:
       - ApiKeyAuth: []
       summary: Update Item
       tags:
-      - todo-items
+      - todo.txt-items
   /api/v1/lists:
     get:
       consumes:
@@ -297,7 +297,7 @@ paths:
       - ApiKeyAuth: []
       summary: Get All Lists
       tags:
-      - todo-lists
+      - todo.txt-lists
     post:
       consumes:
       - application/json
@@ -337,7 +337,7 @@ paths:
       - ApiKeyAuth: []
       summary: Create List
       tags:
-      - todo-lists
+      - todo.txt-lists
   /api/v1/lists/:id:
     delete:
       consumes:
@@ -371,7 +371,7 @@ paths:
       - ApiKeyAuth: []
       summary: Delete List (soft)
       tags:
-      - todo-lists
+      - todo.txt-lists
     get:
       consumes:
       - application/json
@@ -404,7 +404,7 @@ paths:
       - ApiKeyAuth: []
       summary: Get One List
       tags:
-      - todo-lists
+      - todo.txt-lists
     put:
       consumes:
       - application/json
@@ -444,12 +444,12 @@ paths:
       - ApiKeyAuth: []
       summary: Update List
       tags:
-      - todo-lists
+      - todo.txt-lists
   /api/v1/lists/:id/items:
     post:
       consumes:
       - application/json
-      description: create items for todo-list
+      description: create items for todo.txt-list
       operationId: create-item
       parameters:
       - description: item info
@@ -485,7 +485,7 @@ paths:
       - ApiKeyAuth: []
       summary: Create Item
       tags:
-      - todo-items
+      - todo.txt-items
   /users/auth/refresh:
     post:
       consumes:

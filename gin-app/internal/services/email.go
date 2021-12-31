@@ -29,7 +29,7 @@ func NewEmailsService(config config.EmailConfig, sender emailProvider.Sender) *E
 
 func (s EmailService) SendVerificationEmail(input VerificationEmailInput) error {
 	subject := fmt.Sprintf(s.config.Subjects.Verification, input.Name)
-	// todo вынести domain в настройки
+	// todo.txt вынести domain в настройки
 	templateInput := verificationEmailInput{s.createVerificationLink("127.0.0.1", input.VerificationCode)}
 	sendInput := emailProvider.SendEmailInput{Subject: subject, To: input.Email}
 

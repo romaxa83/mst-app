@@ -10,7 +10,7 @@ func Paginate(value interface{}, pagination *Pagination, db *gorm.DB) func(db *g
 
 	pagination.TotalRows = totalRows
 
-	// todo доделать коректное отображение totalPages
+	// todo.txt доделать коректное отображение totalPages
 	var totalPages int
 	if float64(totalRows) <= float64(pagination.Limit) {
 		totalPages = 1

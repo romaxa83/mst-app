@@ -20,7 +20,7 @@ func (h *Handler) initListRoutes(api *gin.RouterGroup) {
 
 // @Summary Create List
 // @Security ApiKeyAuth
-// @Tags todo-lists
+// @Tags todo.txt-lists
 // @Description create list
 // @ID create-list
 // @Accept  json
@@ -60,7 +60,7 @@ type getAllListsResponse struct {
 
 // @Summary Get All Lists
 // @Security ApiKeyAuth
-// @Tags todo-lists
+// @Tags todo.txt-lists
 // @Description get all lists
 // @ID get-all-lists
 // @Accept  json
@@ -90,7 +90,7 @@ func (h *Handler) getAll(c *gin.Context) {
 
 // @Summary Get One List
 // @Security ApiKeyAuth
-// @Tags todo-lists
+// @Tags todo.txt-lists
 // @Description get one list by id
 // @ID get-one-lists
 // @Accept  json
@@ -123,7 +123,7 @@ func (h *Handler) getById(c *gin.Context) {
 
 // @Summary Update List
 // @Security ApiKeyAuth
-// @Tags todo-lists
+// @Tags todo.txt-lists
 // @Description update list
 // @ID update-list
 // @Accept  json
@@ -162,7 +162,7 @@ func (h *Handler) update(c *gin.Context) {
 
 // @Summary Delete List (soft)
 // @Security ApiKeyAuth
-// @Tags todo-lists
+// @Tags todo.txt-lists
 // @Description delete list (soft)
 // @ID delete-list
 // @Accept  json

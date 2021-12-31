@@ -27,8 +27,8 @@ func (h *Handler) initItemRoutes(api *gin.RouterGroup) {
 
 // @Summary Create Item
 // @Security ApiKeyAuth
-// @Tags todo-items
-// @Description create items for todo-list
+// @Tags todo.txt-items
+// @Description create items for todo.txt-list
 // @ID create-item
 // @Accept  json
 // @Produce  json
@@ -74,7 +74,7 @@ type getAllItemsResponse struct {
 
 // @Summary Get All Items
 // @Security ApiKeyAuth
-// @Tags todo-items
+// @Tags todo.txt-items
 // @Description get all items by list
 // @ID get-all-items
 // @Accept  json
@@ -110,7 +110,7 @@ func (h *Handler) getAllItems(c *gin.Context) {
 
 // @Summary Get One Item
 // @Security ApiKeyAuth
-// @Tags todo-items
+// @Tags todo.txt-items
 // @Description get one item by id
 // @ID get-one-items
 // @Accept  json
@@ -143,7 +143,7 @@ func (h *Handler) getItemById(c *gin.Context) {
 
 // @Summary Update Item
 // @Security ApiKeyAuth
-// @Tags todo-items
+// @Tags todo.txt-items
 // @Description update item
 // @ID update-item
 // @Accept  json
@@ -183,7 +183,7 @@ func (h *Handler) updateItem(c *gin.Context) {
 
 // @Summary Delete Item (soft)
 // @Security ApiKeyAuth
-// @Tags todo-items
+// @Tags todo.txt-items
 // @Description delete item (soft)
 // @ID delete-list
 // @Accept  json
