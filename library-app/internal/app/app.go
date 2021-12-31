@@ -69,6 +69,14 @@ func Run() {
 		logger.Error("failed init db: %s", err.Error())
 	}
 
+	// seeder
+	// todo нужно оптимизировать
+	//for _, seed := range seed.All() {
+	//	if err := seed.Run(db); err != nil {
+	//		logger.Errorf("Running seed '%s', failed with error: %s", seed.Name, err)
+	//	}
+	//}
+
 	// Services, Repos & API Handlers
 	repos := repositories.NewRepositories(db)
 	services := services.NewServices(services.Deps{
