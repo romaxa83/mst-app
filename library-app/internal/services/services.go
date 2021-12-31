@@ -29,9 +29,18 @@ type Author interface {
 	Delete(id int) error
 }
 
+type Book interface {
+	Create(input input.CreateBook) (models.Book, error)
+	GetAllPagination(query input.GetBookQuery) (db.Pagination, error)
+	GetOne(id int) (models.Book, error)
+	Update(id int, input input.UpdateBook) (models.Book, error)
+	Delete(id int) error
+}
+
 type Services struct {
 	Category Category
 	Author   Author
+	Book     Book
 }
 
 type Deps struct {
@@ -42,5 +51,6 @@ func NewServices(deps Deps) *Services {
 	return &Services{
 		Category: NewCategoryService(deps.Repos.Category),
 		Author:   NewAuthorService(deps.Repos.Author),
+		Book:     NewBookService(deps.Repos.Book),
 	}
 }

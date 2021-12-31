@@ -65,6 +65,14 @@ func (h *Handler) Init(cfg *config.Config) *gin.Engine {
 			author.PUT("/:id", h.updateAuthor)
 			author.DELETE("/:id", h.deleteAuthor)
 		}
+		book := api.Group("/books")
+		{
+			book.POST("/", h.createBook)
+			book.GET("/", h.getAllBook)
+			book.GET("/:id", h.getOneBook)
+			book.PUT("/:id", h.updateBook)
+			book.DELETE("/:id", h.deleteBook)
+		}
 
 		archive := api.Group("/archive")
 		{

@@ -25,10 +25,22 @@ definitions:
     type: object
   input.CreateAuthor:
     properties:
+      bio:
+        type: string
+      birthday:
+        type: string
+      country:
+        maxLength: 256
+        type: string
+      death_date:
+        type: string
       name:
         maxLength: 256
         type: string
     required:
+    - bio
+    - birthday
+    - country
     - name
     type: object
   input.CreateCategory:
@@ -40,6 +52,21 @@ definitions:
         type: string
     required:
     - title
+    type: object
+  input.UpdateAuthor:
+    properties:
+      bio:
+        type: string
+      birthday:
+        type: string
+      country:
+        maxLength: 256
+        type: string
+      death_date:
+        type: string
+      name:
+        maxLength: 256
+        type: string
     type: object
   input.UpdateCategory:
     properties:
@@ -214,6 +241,58 @@ paths:
       tags:
       - category
   /api/authors:
+    get:
+      consumes:
+      - application/json
+      description: get all author with pagination data
+      operationId: get-all-author-pagination
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: sort
+        in: query
+        name: sort
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: id
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.Pagination'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get all authors paginator
+      tags:
+      - author
     post:
       consumes:
       - application/json
@@ -250,6 +329,139 @@ paths:
           schema:
             $ref: '#/definitions/http.response'
       summary: Create author
+      tags:
+      - author
+  /api/authors/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete author of books (soft)
+      operationId: delete-author
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Delete author (soft)
+      tags:
+      - author
+    get:
+      consumes:
+      - application/json
+      description: get one author by id
+      operationId: get-one-author
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.AuthorResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get one author
+      tags:
+      - author
+    put:
+      consumes:
+      - application/json
+      description: update author of books
+      operationId: update-author
+      parameters:
+      - description: author info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.UpdateAuthor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.AuthorResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Update author
+      tags:
+      - author
+  /api/authors/list:
+    get:
+      consumes:
+      - application/json
+      description: get all author list
+      operationId: get-all-author-list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.getAllListsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get all authors list
       tags:
       - author
   /api/categories:

@@ -29,14 +29,24 @@ type Author interface {
 	Delete(id int) error
 }
 
+type Book interface {
+	Create(input input.CreateBook) (models.Book, error)
+	GetAllPagination(query input.GetBookQuery) (db.Pagination, error)
+	GetOneById(id int) (models.Book, error)
+	Update(id int, input input.UpdateBook) (models.Book, error)
+	Delete(id int) error
+}
+
 type Repo struct {
 	Category
 	Author
+	Book
 }
 
 func NewRepositories(db *gorm.DB) *Repo {
 	return &Repo{
 		Category: NewCategoryRepo(db),
 		Author:   NewAuthorRepo(db),
+		Book:     NewBookRepo(db),
 	}
 }

@@ -6,6 +6,7 @@ func InitModels(db *gorm.DB) error {
 	if err := db.AutoMigrate(
 		&Author{},
 		&Category{},
+		&Book{},
 	); err != nil {
 		return err
 	}

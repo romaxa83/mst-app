@@ -6,6 +6,7 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
+	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"gorm.io/gorm"
 )
 
@@ -37,7 +38,7 @@ func (r *AuthorRepo) Create(input input.CreateAuthor) (models.Author, error) {
 func (r *AuthorRepo) GetAllPagination(query input.GetAuthorQuery) (db.Pagination, error) {
 	model := models.Author{}
 	pagination := query.Pagination
-	var resources []*resources.AuthorResource
+	var resources []resources.AuthorResource
 	q := r.db.Model(&model)
 
 	id := query.AuthorFilterQuery.Id
@@ -51,7 +52,7 @@ func (r *AuthorRepo) GetAllPagination(query input.GetAuthorQuery) (db.Pagination
 	}
 
 	q = q.Scopes(db.Paginate(&model, &pagination, r.db)).Find(&resources)
-
+	logger.Warnf("%+v", resources)
 	pagination.Rows = resources
 
 	return pagination, nil
