@@ -5,6 +5,7 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
+	value_obj "github.com/romaxa83/mst-app/library-app/pkg/value-obj"
 	"gorm.io/gorm"
 )
 
@@ -32,9 +33,9 @@ type Author interface {
 type Book interface {
 	Create(input input.CreateBook) (models.Book, error)
 	GetAllPagination(query input.GetBookQuery) (db.Pagination, error)
-	GetOneById(id int) (models.Book, error)
-	Update(id int, input input.UpdateBook) (models.Book, error)
-	Delete(id int) error
+	GetOneById(id value_obj.ID) (models.Book, error)
+	Update(id value_obj.ID, input input.UpdateBook) (models.Book, error)
+	Delete(id value_obj.ID) error
 }
 
 type Repo struct {

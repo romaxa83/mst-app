@@ -5,6 +5,7 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/internal/repositories"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
+	value_obj "github.com/romaxa83/mst-app/library-app/pkg/value-obj"
 )
 
 type BookService struct {
@@ -23,14 +24,14 @@ func (s *BookService) GetAllPagination(query input.GetBookQuery) (db.Pagination,
 	return s.repo.GetAllPagination(query)
 }
 
-func (s *BookService) GetOne(id int) (models.Book, error) {
+func (s *BookService) GetOne(id value_obj.ID) (models.Book, error) {
 	return s.repo.GetOneById(id)
 }
 
-func (s *BookService) Delete(id int) error {
+func (s *BookService) Delete(id value_obj.ID) error {
 	return s.repo.Delete(id)
 }
 
-func (s *BookService) Update(id int, input input.UpdateBook) (models.Book, error) {
+func (s *BookService) Update(id value_obj.ID, input input.UpdateBook) (models.Book, error) {
 	return s.repo.Update(id, input)
 }

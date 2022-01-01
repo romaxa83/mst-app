@@ -6,6 +6,7 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/internal/repositories"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
+	value_obj "github.com/romaxa83/mst-app/library-app/pkg/value-obj"
 )
 
 type Category interface {
@@ -32,9 +33,9 @@ type Author interface {
 type Book interface {
 	Create(input input.CreateBook) (models.Book, error)
 	GetAllPagination(query input.GetBookQuery) (db.Pagination, error)
-	GetOne(id int) (models.Book, error)
-	Update(id int, input input.UpdateBook) (models.Book, error)
-	Delete(id int) error
+	GetOne(id value_obj.ID) (models.Book, error)
+	Update(id value_obj.ID, input input.UpdateBook) (models.Book, error)
+	Delete(id value_obj.ID) error
 }
 
 type Services struct {

@@ -7,6 +7,7 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
 	"github.com/romaxa83/mst-app/library-app/pkg/logger"
+	value_obj "github.com/romaxa83/mst-app/library-app/pkg/value-obj"
 	"gorm.io/gorm"
 )
 
@@ -40,7 +41,7 @@ func (r *BookRepo) Create(input input.CreateBook) (models.Book, error) {
 	return model, nil
 }
 
-func (r *BookRepo) GetOneById(id int) (models.Book, error) {
+func (r *BookRepo) GetOneById(id value_obj.ID) (models.Book, error) {
 
 	var model models.Book
 
@@ -80,7 +81,7 @@ func (r *BookRepo) GetAllPagination(query input.GetBookQuery) (db.Pagination, er
 	return pagination, nil
 }
 
-func (r *BookRepo) Update(id int, input input.UpdateBook) (models.Book, error) {
+func (r *BookRepo) Update(id value_obj.ID, input input.UpdateBook) (models.Book, error) {
 
 	var model models.Book
 	model, err := r.GetOneById(id)
@@ -127,7 +128,7 @@ func (r *BookRepo) Update(id int, input input.UpdateBook) (models.Book, error) {
 	return model, nil
 }
 
-func (r *BookRepo) Delete(id int) error {
+func (r *BookRepo) Delete(id value_obj.ID) error {
 	result := r.db.Delete(&models.Book{}, id)
 	if result.Error != nil {
 		return result.Error

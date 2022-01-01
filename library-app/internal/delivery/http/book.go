@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/input"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
+	value_obj "github.com/romaxa83/mst-app/library-app/pkg/value-obj"
 	"net/http"
 )
 
@@ -51,7 +52,9 @@ func (h *Handler) createBook(c *gin.Context) {
 // @Router /api/books/:id [get]
 func (h *Handler) getOneBook(c *gin.Context) {
 
-	result, err := h.services.Book.GetOne(getId(c))
+	id := value_obj.ID(c.Param("id"))
+
+	result, err := h.services.Book.GetOne(id)
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -113,7 +116,9 @@ func (h *Handler) updateBook(c *gin.Context) {
 		return
 	}
 
-	result, err := h.services.Book.Update(getId(c), input)
+	id := value_obj.ID(c.Param("id"))
+
+	result, err := h.services.Book.Update(id, input)
 	if err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -135,7 +140,8 @@ func (h *Handler) updateBook(c *gin.Context) {
 // @Router /api/books/:id [delete]
 func (h *Handler) deleteBook(c *gin.Context) {
 
-	if err := h.services.Book.Delete(getId(c)); err != nil {
+	id := value_obj.ID(c.Param("id"))
+	if err := h.services.Book.Delete(id); err != nil {
 		errorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
