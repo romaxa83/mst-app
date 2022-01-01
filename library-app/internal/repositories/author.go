@@ -58,10 +58,10 @@ func (r *AuthorRepo) GetAllPagination(query input.GetAuthorQuery) (db.Pagination
 	return pagination, nil
 }
 
-func (r *AuthorRepo) GetAllList() ([]resources.AuthorResource, error) {
+func (r *AuthorRepo) GetAllList() ([]resources.AuthorListResource, error) {
 
-	var resources []resources.AuthorResource
-	result := r.db.Model(&models.Author{}).Find(&resources)
+	var resources []resources.AuthorListResource
+	result := r.db.Model(&models.Author{}).Scopes(db.Active).Find(&resources)
 	if result.Error != nil {
 		return resources, result.Error
 	}

@@ -4,6 +4,14 @@ import (
 	"gorm.io/gorm"
 )
 
+func Active(db *gorm.DB) *gorm.DB {
+	return db.Where("active = ?", true)
+}
+
+func NotActive(db *gorm.DB) *gorm.DB {
+	return db.Where("active = ?", false)
+}
+
 func Paginate(value interface{}, pagination *Pagination, db *gorm.DB) func(db *gorm.DB) *gorm.DB {
 	var totalRows int64
 	db.Model(value).Count(&totalRows)

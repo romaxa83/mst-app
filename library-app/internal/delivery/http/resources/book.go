@@ -32,20 +32,14 @@ func NewBookResource(model models.Book) *BookResource {
 }
 
 type BookListResource struct {
-	ID          int
-	Title       string
-	Sort        int
-	Active      bool
-	PublishedAt time.Time
+	ID    int
+	Title string
 }
 
 func NewBookListResource(model models.Book) *BookListResource {
 	return &BookListResource{
 		int(model.ID),
 		model.Title,
-		model.Sort,
-		model.Active,
-		model.PublishedAt,
 	}
 }
 

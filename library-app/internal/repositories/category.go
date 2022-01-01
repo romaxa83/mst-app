@@ -99,10 +99,10 @@ func (r *CategoryRepo) GetAllPaginationArchive(query input.GetCategoryQuery) (db
 	return pagination, nil
 }
 
-func (r *CategoryRepo) GetAllList() ([]resources.CategoryResource, error) {
+func (r *CategoryRepo) GetAllList() ([]resources.CategoryListResource, error) {
 
-	var resources []resources.CategoryResource
-	result := r.db.Model(&models.Category{}).Find(&resources)
+	var resources []resources.CategoryListResource
+	result := r.db.Model(&models.Category{}).Scopes(db.Active).Find(&resources)
 	if result.Error != nil {
 		return resources, result.Error
 	}

@@ -28,7 +28,7 @@ func (s *CategoryService) GetAllPaginationArchive(query input.GetCategoryQuery) 
 	return s.repo.GetAllPaginationArchive(query)
 }
 
-func (s *CategoryService) GetAllList() ([]resources.CategoryResource, error) {
+func (s *CategoryService) GetAllList() ([]resources.CategoryListResource, error) {
 	return s.repo.GetAllList()
 }
 

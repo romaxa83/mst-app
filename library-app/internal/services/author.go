@@ -24,7 +24,7 @@ func (s *AuthorService) GetAllPagination(query input.GetAuthorQuery) (db.Paginat
 	return s.repo.GetAllPagination(query)
 }
 
-func (s *AuthorService) GetAllList() ([]resources.AuthorResource, error) {
+func (s *AuthorService) GetAllList() ([]resources.AuthorListResource, error) {
 	return s.repo.GetAllList()
 }
 

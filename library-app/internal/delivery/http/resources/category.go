@@ -19,3 +19,15 @@ func NewCategoryResource(model models.Category) *CategoryResource {
 		Sort:   model.Sort,
 	}
 }
+
+type CategoryListResource struct {
+	ID    int
+	Title string
+}
+
+func NewCategoryListResource(model models.Category) *CategoryListResource {
+	return &CategoryListResource{
+		ID:    int(model.ID),
+		Title: model.Title,
+	}
+}

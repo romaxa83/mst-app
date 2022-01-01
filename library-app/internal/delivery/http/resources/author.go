@@ -26,3 +26,15 @@ func NewAuthorResource(model models.Author) *AuthorResource {
 		Books:     AsManyBooks(model.Books),
 	}
 }
+
+type AuthorListResource struct {
+	ID   int
+	Name string
+}
+
+func NewAuthorListResource(model models.Author) *AuthorListResource {
+	return &AuthorListResource{
+		ID:   int(model.ID),
+		Name: model.Name,
+	}
+}

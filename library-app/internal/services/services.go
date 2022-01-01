@@ -12,7 +12,7 @@ type Category interface {
 	Create(input input.CreateCategory) (models.Category, error)
 	GetAllPagination(query input.GetCategoryQuery) (db.Pagination, error)
 	GetAllPaginationArchive(query input.GetCategoryQuery) (db.Pagination, error)
-	GetAllList() ([]resources.CategoryResource, error)
+	GetAllList() ([]resources.CategoryListResource, error)
 	GetOne(id int) (models.Category, error)
 	Update(id int, input input.UpdateCategory) (models.Category, error)
 	Delete(id int) error
@@ -23,7 +23,7 @@ type Category interface {
 type Author interface {
 	Create(input input.CreateAuthor) (models.Author, error)
 	GetAllPagination(query input.GetAuthorQuery) (db.Pagination, error)
-	GetAllList() ([]resources.AuthorResource, error)
+	GetAllList() ([]resources.AuthorListResource, error)
 	GetOne(id int) (models.Author, error)
 	Update(id int, input input.UpdateAuthor) (models.Author, error)
 	Delete(id int) error
