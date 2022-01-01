@@ -12,6 +12,7 @@ type AuthorResource struct {
 	Bio       string
 	Birthday  time.Time
 	DeathDate time.Time
+	Books     []BookListResource
 }
 
 func NewAuthorResource(model models.Author) *AuthorResource {
@@ -22,5 +23,6 @@ func NewAuthorResource(model models.Author) *AuthorResource {
 		Bio:       model.Bio,
 		Birthday:  model.Birthday,
 		DeathDate: model.DeathDate,
+		Books:     AsManyBooks(model.Books),
 	}
 }

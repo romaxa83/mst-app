@@ -73,7 +73,7 @@ func (r *AuthorRepo) GetOneById(id int) (models.Author, error) {
 
 	var model models.Author
 
-	result := r.db.Find(&model, id).First(&model)
+	result := r.db.Preload("Books").Find(&model, id).First(&model)
 	if result.Error != nil {
 		return model, result.Error
 	}
