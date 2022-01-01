@@ -12,6 +12,7 @@ type CreateBook struct {
 	Pages       int       `json:"pages" binding:"required"`
 	Qty         int       `json:"qty"`
 	AuthorID    int       `json:"author_id" binding:"required"`
+	CategoryIDs []int     `json:"category_ids"`
 }
 
 // все поля указатели чтобы при обновлении понять какие имеют значения, и не заполнены нулевыми значениями
@@ -25,6 +26,7 @@ type UpdateBook struct {
 	AuthorID    *int       `json:"author_id"`
 	Sort        *int       `json:"sort"`
 	Active      *bool      `json:"active"`
+	CategoryIDs *[]int     `json:"category_ids"`
 }
 
 type BookFilterQuery struct {

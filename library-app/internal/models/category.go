@@ -8,4 +8,5 @@ type Category struct {
 	Desc   string `json:"desc"`
 	Active bool   `gorm:"default:true"`
 	Sort   int    `gorm:"default:0"`
+	Books  []Book `gorm:"many2many:book_category;"`
 }

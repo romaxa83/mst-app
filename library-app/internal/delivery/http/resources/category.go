@@ -8,6 +8,7 @@ type CategoryResource struct {
 	Desc   string
 	Active bool
 	Sort   int
+	Books  []BookListResource
 }
 
 func NewCategoryResource(model models.Category) *CategoryResource {
@@ -17,6 +18,7 @@ func NewCategoryResource(model models.Category) *CategoryResource {
 		Desc:   model.Desc,
 		Active: model.Active,
 		Sort:   model.Sort,
+		Books:  AsManyBooks(model.Books),
 	}
 }
 
@@ -30,4 +32,12 @@ func NewCategoryListResource(model models.Category) *CategoryListResource {
 		ID:    int(model.ID),
 		Title: model.Title,
 	}
+}
+
+func AsManyCategories(models []models.Category) []CategoryListResource {
+	var list []CategoryListResource
+	for _, b := range models {
+		list = append(list, *NewCategoryListResource(b))
+	}
+	return list
 }

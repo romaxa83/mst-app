@@ -14,20 +14,22 @@ type BookResource struct {
 	Sort        int
 	Active      bool
 	PublishedAt time.Time
-	Author      *AuthorResource
+	Author      *AuthorListResource
+	Categories  []CategoryListResource
 }
 
 func NewBookResource(model models.Book) *BookResource {
 	return &BookResource{
-		int(model.ID),
-		model.Title,
-		model.Desc,
-		model.Pages,
-		model.Qty,
-		model.Sort,
-		model.Active,
-		model.PublishedAt,
-		NewAuthorResource(model.Author),
+		ID:          int(model.ID),
+		Title:       model.Title,
+		Desc:        model.Desc,
+		Pages:       model.Pages,
+		Qty:         model.Qty,
+		Sort:        model.Sort,
+		Active:      model.Active,
+		PublishedAt: model.PublishedAt,
+		Author:      NewAuthorListResource(model.Author),
+		Categories:  AsManyCategories(model.Categories),
 	}
 }
 

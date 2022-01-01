@@ -6,6 +6,7 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
+	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"gorm.io/gorm"
 )
 
@@ -27,6 +28,10 @@ func (r *BookRepo) Create(input input.CreateBook) (models.Book, error) {
 	model.Qty = input.Qty
 	model.PublishedAt = input.PublishedAt
 
+	var c []models.Category
+	r.db.Find(&c, input.CategoryIDs)
+	model.Categories = c
+
 	result := r.db.Create(&model)
 	if result.Error != nil {
 		return models.Book{}, result.Error
@@ -39,7 +44,7 @@ func (r *BookRepo) GetOneById(id int) (models.Book, error) {
 
 	var model models.Book
 
-	result := r.db.Joins("Author").Find(&model, id).First(&model)
+	result := r.db.Joins("Author").Preload("Categories").Find(&model, id).First(&model)
 	if result.Error != nil {
 		return model, result.Error
 	}
@@ -109,7 +114,15 @@ func (r *BookRepo) Update(id int, input input.UpdateBook) (models.Book, error) {
 		r.db.Find(&a, *input.AuthorID).First(&a)
 		model.Author = a
 	}
-	r.db.Session(&gorm.Session{FullSaveAssociations: true}).Save(&input)
+	logger.Warnf("INPUT %+v", input)
+	if nil != input.CategoryIDs {
+		r.db.Model(&model).Association("Categories").Clear()
+		var c []models.Category
+		r.db.Find(&c, input.CategoryIDs)
+		model.Categories = c
+	}
+
+	r.db.Save(&model)
 
 	return model, nil
 }

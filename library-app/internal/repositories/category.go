@@ -114,7 +114,7 @@ func (r *CategoryRepo) GetOneById(id int) (models.Category, error) {
 
 	var model models.Category
 
-	result := r.db.Find(&model, id).First(&model)
+	result := r.db.Find(&model, id).Preload("Books").First(&model)
 	if result.Error != nil {
 		return model, result.Error
 	}
