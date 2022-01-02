@@ -61,7 +61,7 @@ func (r *AuthorRepo) GetAllPagination(query input.GetAuthorQuery) (db.Pagination
 func (r *AuthorRepo) GetAllList() ([]resources.AuthorListResource, error) {
 
 	var resources []resources.AuthorListResource
-	result := r.db.Model(&models.Author{}).Scopes(db.Active).Find(&resources)
+	result := r.db.Model(&models.Author{}).Find(&resources)
 	if result.Error != nil {
 		return resources, result.Error
 	}
@@ -73,7 +73,7 @@ func (r *AuthorRepo) GetOneById(id int) (models.Author, error) {
 
 	var model models.Author
 
-	result := r.db.Preload("Books").Find(&model, id).First(&model)
+	result := r.db.Preload("Books").Preload("Images").Find(&model, id).First(&model)
 	if result.Error != nil {
 		return model, result.Error
 	}

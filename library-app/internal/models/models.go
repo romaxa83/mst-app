@@ -7,6 +7,7 @@ func InitModels(db *gorm.DB) error {
 		&Author{},
 		&Category{},
 		&Book{},
+		&Media{},
 	); err != nil {
 		return err
 	}

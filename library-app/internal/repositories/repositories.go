@@ -38,10 +38,16 @@ type Book interface {
 	Delete(id value_obj.ID) error
 }
 
+type Media interface {
+	Create(input input.UploadMedia) (models.Media, error)
+	SetUrl(model models.Media, url string) (models.Media, error)
+}
+
 type Repo struct {
 	Category
 	Author
 	Book
+	Media
 }
 
 func NewRepositories(db *gorm.DB) *Repo {
@@ -49,5 +55,6 @@ func NewRepositories(db *gorm.DB) *Repo {
 		Category: NewCategoryRepo(db),
 		Author:   NewAuthorRepo(db),
 		Book:     NewBookRepo(db),
+		Media:    NewMediaRepo(db),
 	}
 }

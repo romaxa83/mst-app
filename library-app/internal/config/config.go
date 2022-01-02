@@ -22,6 +22,7 @@ type (
 		AppUrl      string
 		HTTP        HTTPConfig
 		Postgres    PostgresConfig
+		FileStorage FileStorageConfig
 	}
 
 	HTTPConfig struct {
@@ -39,6 +40,13 @@ type (
 		Password string
 		DBName   string
 		SSLMode  string
+	}
+
+	FileStorageConfig struct {
+		Endpoint  string
+		Bucket    string
+		AccessKey string
+		SecretKey string
 	}
 )
 
@@ -70,6 +78,10 @@ func unmarshal(cfg *Config) error {
 		return err
 	}
 
+	if err := viper.UnmarshalKey("fileStorage", &cfg.FileStorage); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -86,6 +98,11 @@ func setFromEnv(cfg *Config) {
 
 	cfg.HTTP.Host = os.Getenv("HTTP_HOST")
 	cfg.HTTP.Port = os.Getenv("HTTP_PORT")
+
+	cfg.FileStorage.Endpoint = os.Getenv("MINIO_ENDPOINT")
+	cfg.FileStorage.Bucket = os.Getenv("MINIO_BUCKET")
+	cfg.FileStorage.AccessKey = os.Getenv("MINIO_ACCESS_KEY")
+	cfg.FileStorage.SecretKey = os.Getenv("MINIO_SECRET_KEY")
 }
 
 func parseConfigFile(folder, env string) error {

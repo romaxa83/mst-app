@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/joho/godotenv"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/romaxa83/mst-app/library-app/internal/config"
 	delivery "github.com/romaxa83/mst-app/library-app/internal/delivery/http"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
@@ -13,6 +15,7 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/services"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
 	"github.com/romaxa83/mst-app/library-app/pkg/logger"
+	"github.com/romaxa83/mst-app/library-app/pkg/storage"
 	"net/http"
 	"os"
 	"os/signal"
@@ -36,7 +39,6 @@ import (
 // @name Authorization
 
 func Run() {
-	//logrus.SetFormatter(new(logrus.JSONFormatter))
 	if err := godotenv.Load(); err != nil {
 		logger.Error("No .env file found")
 		return
@@ -77,10 +79,20 @@ func Run() {
 	//	}
 	//}
 
+	storageProvider, err := newStorageProvider(cfg)
+	if err != nil {
+		logger.Error(err)
+
+		return
+	}
+	logger.Info("Init storage provider [minio]")
+
 	// Services, Repos & API Handlers
 	repos := repositories.NewRepositories(db)
 	services := services.NewServices(services.Deps{
-		Repos: repos,
+		Repos:           repos,
+		StorageProvider: storageProvider,
+		Environment:     cfg.Environment,
 	})
 	handlers := delivery.NewHandler(services)
 
@@ -113,4 +125,18 @@ func Run() {
 	//if err := db.; err != nil {
 	//	logger.Errorf("error occured on db connection close: %v", err)
 	//}
+}
+
+func newStorageProvider(cfg *config.Config) (storage.Provider, error) {
+	client, err := minio.New(cfg.FileStorage.Endpoint, &minio.Options{
+		Creds: credentials.NewStaticV4(cfg.FileStorage.AccessKey, cfg.FileStorage.SecretKey, ""),
+		//Secure: true,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	provider := storage.NewFileStorage(client, cfg.FileStorage.Bucket, cfg.FileStorage.Endpoint)
+
+	return provider, nil
 }

@@ -1,11 +1,13 @@
 package services
 
 import (
+	"context"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/input"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/internal/repositories"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
+	"github.com/romaxa83/mst-app/library-app/pkg/storage"
 	value_obj "github.com/romaxa83/mst-app/library-app/pkg/value-obj"
 )
 
@@ -38,14 +40,21 @@ type Book interface {
 	Delete(id value_obj.ID) error
 }
 
+type Media interface {
+	UploadAndSaveFile(ctx context.Context, input input.UploadMedia) (models.Media, error)
+}
+
 type Services struct {
 	Category Category
 	Author   Author
 	Book     Book
+	Media    Media
 }
 
 type Deps struct {
-	Repos *repositories.Repo
+	Repos           *repositories.Repo
+	Environment     string
+	StorageProvider storage.Provider
 }
 
 func NewServices(deps Deps) *Services {
@@ -53,5 +62,6 @@ func NewServices(deps Deps) *Services {
 		Category: NewCategoryService(deps.Repos.Category),
 		Author:   NewAuthorService(deps.Repos.Author),
 		Book:     NewBookService(deps.Repos.Book),
+		Media:    NewMediaService(deps.Repos.Media, deps.StorageProvider, deps.Environment),
 	}
 }

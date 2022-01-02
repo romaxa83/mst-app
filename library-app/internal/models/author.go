@@ -12,5 +12,6 @@ type Author struct {
 	Birthday  time.Time
 	DeathDate time.Time
 	Bio       string
-	Books     []Book `gorm:"foreignKey:AuthorID;references:ID"`
+	Books     []Book  `gorm:"foreignKey:AuthorID;references:ID"`
+	Images    []Media `gorm:"polymorphic:Owner;"`
 }

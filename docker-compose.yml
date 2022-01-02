@@ -56,30 +56,31 @@ services:
 #    ports:
 #      - 3000:3000
 
-  storage:
-    build:
-      context: ./storage/docker/dev
-      dockerfile: nginx.docker
-    container_name: mst__storage_nginx
-    hostname: mst__storage_nginx
-    volumes:
-      - ./storage:/app
-    ports:
-      - 192.168.141.1:8081:80
-  storage-ftp:
-    image: stilliard/pure-ftpd
-    container_name: mst__storage_ftp
-    hostname: mst__storage_ftp
-    ports:
-      - 192.168.141.1:21:21
-      - 192.168.141.1:30000-30009:30000-30009
-    environment:
-      PUBLICHOST: "192.168.141.1"
-      FTP_USER_NAME: app
-      FTP_USER_PASS: secret
-      FTP_USER_HOME: /app
-    volumes:
-      - ./storage/public:/app
+# FTP Storage
+#  storage:
+#    build:
+#      context: ./storage/docker/dev
+#      dockerfile: nginx.docker
+#    container_name: mst__storage_nginx
+#    hostname: mst__storage_nginx
+#    volumes:
+#      - ./storage:/app
+#    ports:
+#      - 192.168.141.1:8081:80
+#  storage-ftp:
+#    image: stilliard/pure-ftpd
+#    container_name: mst__storage_ftp
+#    hostname: mst__storage_ftp
+#    ports:
+#      - 192.168.141.1:21:21
+#      - 192.168.141.1:30000-30009:30000-30009
+#    environment:
+#      PUBLICHOST: "192.168.141.1"
+#      FTP_USER_NAME: app
+#      FTP_USER_PASS: secret
+#      FTP_USER_HOME: /app
+#    volumes:
+#      - ./storage/public:/app
 
   mailer:
     image: mailhog/mailhog
@@ -88,6 +89,20 @@ services:
     ports:
       - 192.168.141.1:8025:8025
       - 192.168.141.1:1025:1025
+
+  minio:
+    image: bitnami/minio:latest
+    container_name: mst__minio
+    hostname: mst__mionio
+    ports:
+      - 192.168.141.1:9000:9000
+      - 192.168.141.1:9001:9001
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password
+    volumes:
+      - ./storage/minio:/data
+#    command: minio server /data
 
 networks:
   default:

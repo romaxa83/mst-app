@@ -13,6 +13,7 @@ type AuthorResource struct {
 	Birthday  time.Time
 	DeathDate time.Time
 	Books     []BookListResource
+	Images    []MediaResource
 }
 
 func NewAuthorResource(model models.Author) *AuthorResource {
@@ -24,6 +25,7 @@ func NewAuthorResource(model models.Author) *AuthorResource {
 		Birthday:  model.Birthday,
 		DeathDate: model.DeathDate,
 		Books:     AsManyBooks(model.Books),
+		Images:    AsMediaCollection(model.Images),
 	}
 }
 
