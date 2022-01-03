@@ -81,6 +81,18 @@ func (r *AuthorRepo) GetOneById(id int) (models.Author, error) {
 	return model, nil
 }
 
+func (r *AuthorRepo) GetOneByName(name string) (models.Author, error) {
+
+	var model models.Author
+
+	result := r.db.Model(&model).Where("name = ?", name).First(&model)
+	if result.Error != nil {
+		return model, result.Error
+	}
+
+	return model, nil
+}
+
 func (r *AuthorRepo) Update(id int, input input.UpdateAuthor) (models.Author, error) {
 
 	var model models.Author

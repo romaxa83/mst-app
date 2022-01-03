@@ -44,11 +44,17 @@ type Media interface {
 	UploadAndSaveFile(ctx context.Context, input input.UploadMedia) (models.Media, error)
 }
 
+type Import interface {
+	Create(input input.CreateImport) (models.Import, error)
+	Parse(model models.Import) error
+}
+
 type Services struct {
 	Category Category
 	Author   Author
 	Book     Book
 	Media    Media
+	Import   Import
 }
 
 type Deps struct {
@@ -63,5 +69,6 @@ func NewServices(deps Deps) *Services {
 		Author:   NewAuthorService(deps.Repos.Author),
 		Book:     NewBookService(deps.Repos.Book),
 		Media:    NewMediaService(deps.Repos.Media, deps.StorageProvider, deps.Environment),
+		Import:   NewImportService(deps.Repos.Import, deps.Repos.Author),
 	}
 }

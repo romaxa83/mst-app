@@ -7,6 +7,7 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/input"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/internal/repositories"
+	"github.com/romaxa83/mst-app/library-app/pkg/file"
 	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"github.com/romaxa83/mst-app/library-app/pkg/storage"
 	"os"
@@ -30,7 +31,7 @@ func NewMediaService(repo repositories.Media, storage storage.Provider, env stri
 }
 
 func (s MediaService) UploadAndSaveFile(ctx context.Context, input input.UploadMedia) (models.Media, error) {
-	defer removeFile(input.Name)
+	defer file.Remove(input.Name)
 
 	model, err := s.repo.Create(input)
 	if err != nil {
@@ -78,10 +79,4 @@ func getFileExtension(filename string) string {
 	parts := strings.Split(filename, ".")
 
 	return parts[len(parts)-1]
-}
-
-func removeFile(filename string) {
-	if err := os.Remove(filename); err != nil {
-		logger.Error("removeFile(): ", err)
-	}
 }

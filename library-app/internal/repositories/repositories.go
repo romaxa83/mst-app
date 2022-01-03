@@ -26,6 +26,7 @@ type Author interface {
 	GetAllPagination(query input.GetAuthorQuery) (db.Pagination, error)
 	GetAllList() ([]resources.AuthorListResource, error)
 	GetOneById(id int) (models.Author, error)
+	GetOneByName(name string) (models.Author, error)
 	Update(id int, input input.UpdateAuthor) (models.Author, error)
 	Delete(id int) error
 }
@@ -43,11 +44,17 @@ type Media interface {
 	SetUrl(model models.Media, url string) (models.Media, error)
 }
 
+type Import interface {
+	Create(input input.CreateImport) (models.Import, error)
+	GetOneById(id int) (models.Import, error)
+}
+
 type Repo struct {
 	Category
 	Author
 	Book
 	Media
+	Import
 }
 
 func NewRepositories(db *gorm.DB) *Repo {
@@ -56,5 +63,6 @@ func NewRepositories(db *gorm.DB) *Repo {
 		Author:   NewAuthorRepo(db),
 		Book:     NewBookRepo(db),
 		Media:    NewMediaRepo(db),
+		Import:   NewImportRepo(db),
 	}
 }

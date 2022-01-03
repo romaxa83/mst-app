@@ -46,6 +46,7 @@ const (
 
 const (
 	AuthorOwner OwnerType = "authors"
+	ImportOwner OwnerType = "imports"
 )
 
 type Media struct {
