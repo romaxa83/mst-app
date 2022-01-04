@@ -1,7 +1,7 @@
 #### Simple project as API for library (books)
 <div id="library-top"></div>
 
-![-----------------------------------------------------](https://github.com/romaxa83/mst-app/storage/img/rainbow.png)
+![-----------------------------------------------------](mst-app/storage/img/rainbow.png)
 ##### 📚 technology stack
 <ul>
 <li>Api docs -<a href="https://github.com/swaggo/gin-swagger">swagger</a></li>
@@ -12,7 +12,7 @@
 <li>Logger - <a href="https://github.com/sirupsen/logrus">logrus</a></li>
 </ul>
 
-![-----------------------------------------------------](https://github.com/romaxa83/mst-app/storage/img/rainbow.png)
+![-----------------------------------------------------](./mst-app/storage/img/rainbow.png)
 ##### features
 
 ✅&nbsp;&nbsp;api documentation (http://127.0.0.1:8060/swagger/index.html) <br>
@@ -24,10 +24,11 @@
 ✅&nbsp;&nbsp; export data (only author) from file (only json)<br>
 ✅&nbsp;&nbsp; upload image for author and send to storage (minio)<br>
 
-![-----------------------------------------------------](https://github.com/romaxa83/mst-app/storage/img/rainbow.png)
+![-----------------------------------------------------](docs/rainbow.png)
 ##### command
 
 ```sh
+$ cp .env.dist .env # copy env file and fill variables
 $ make run # run service
 $ make swagger # generate swagger docs
 $ make info # show info
