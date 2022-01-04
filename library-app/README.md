@@ -4,7 +4,7 @@
 ![-----------------------------------------------------](docs/rainbow.png)
 ##### 📚 technology stack
 <ul>
-<li>Api docs -<a href="https://github.com/swaggo/gin-swagger">swagger</a></li>
+<li>Api docs - <a href="https://github.com/swaggo/gin-swagger">swagger</a></li>
 <li>Framework - <a href="https://github.com/gin-gonic/gin">gin</a></li>
 <li>Database - <a href="https://www.postgresql.org/">postgres</a></li>
 <li>ORM - <a href="https://gorm.io/index.html">gorm</a></li>
@@ -16,7 +16,7 @@
 ##### features
 
 ✅&nbsp;&nbsp;api documentation (http://127.0.0.1:8060/swagger/index.html) <br>
-✅&nbsp;&nbsp;crud for entities <br>
+✅&nbsp;&nbsp;crud for entities (category, author, book) <br>
 ✅&nbsp;&nbsp;soft/hard delete, restore from archive <br>
 ✅&nbsp;&nbsp; implementation relations - hasMany, many2many, polymorphic by gorm<br>
 ✅&nbsp;&nbsp; pagination, filters <br>

@@ -13,7 +13,7 @@ as well as the interaction between them
       Library
     </a>
     <span> | </span>
-    <a href="https://github.com/CCOSTAN/Home-AssistantConfig#devices">
+    <a href="https://github.com/romaxa83/mst-app/tree/master/gin-app#todo-top">
       User/Todo
     </a>
 
