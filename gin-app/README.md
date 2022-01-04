@@ -19,7 +19,7 @@
 ✅&nbsp;&nbsp;crud for entities (todo list, item) <br>
 ✅&nbsp;&nbsp;create user,crypto password, generate access/refresh token by <a href="https://github.com/dgrijalva/jwt-go">jwt</a> <br>
 ✅&nbsp;&nbsp;auth middleware <br>
-✅&nbsp;&nbsp;send email<br>
+✅&nbsp;&nbsp;send email, generate <a href="https://github.com/xlzd/gotp">otp</a> - token<br>
 ✅&nbsp;&nbsp; upload image/file and send to storage (ftp)<br>
 ✅&nbsp;&nbsp; <a href="https://github.com/golang-migrate/migrate">migration</a><br>
 

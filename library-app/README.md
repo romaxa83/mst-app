@@ -1,7 +1,7 @@
 #### Simple project as API for library (books)
 <div id="library-top"></div>
 
-![-----------------------------------------------------](docs/rainbow.png)
+![-----------------------------------------------------](/storage/img/rainbow.png)
 ##### 📚 technology stack
 <ul>
 <li>Api docs - <a href="https://github.com/swaggo/gin-swagger">swagger</a></li>
@@ -12,7 +12,7 @@
 <li>Logger - <a href="https://github.com/sirupsen/logrus">logrus</a></li>
 </ul>
 
-![-----------------------------------------------------](docs/rainbow.png)
+![-----------------------------------------------------](/storage/img/rainbow.png)
 ##### features
 
 ✅&nbsp;&nbsp;api documentation (http://127.0.0.1:8060/swagger/index.html) <br>
@@ -24,7 +24,7 @@
 ✅&nbsp;&nbsp; export data (only author) from file (only json)<br>
 ✅&nbsp;&nbsp; upload image for author and send to storage (minio)<br>
 
-![-----------------------------------------------------](docs/rainbow.png)
+![-----------------------------------------------------](/storage/img/rainbow.png)
 ##### command
 
 ```sh
