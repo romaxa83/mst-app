@@ -1,6 +1,8 @@
 http:
   port: 8060
   maxHeaderBytes: 1
-  readTimeout: 10s
+  readTimeout: 20s
   writeTimeout: 10s
+locale:
+  default: "en" # support - en, ru
 

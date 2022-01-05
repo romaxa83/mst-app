@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/romaxa83/mst-app/library-app/internal/config"
 	"github.com/romaxa83/mst-app/library-app/internal/services"
+	"github.com/romaxa83/mst-app/library-app/internal/utils"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"net/http"
@@ -16,13 +17,15 @@ import (
 
 type Handler struct {
 	services *services.Services
+	locale   *utils.Local
 }
 
 // construct
 
-func NewHandler(services *services.Services) *Handler {
+func NewHandler(services *services.Services, locale *utils.Local) *Handler {
 	return &Handler{
 		services: services,
+		locale:   locale,
 	}
 }
 
@@ -56,7 +59,7 @@ func (h *Handler) Init(cfg *config.Config) *gin.Engine {
 			category.PUT("/:id", h.updateCategory)
 			category.DELETE("/:id", h.deleteCategory)
 		}
-		author := api.Group("/authors")
+		author := api.Group("/authors", h.setLocale)
 		{
 			author.POST("/", h.createAuthor)
 			author.GET("/", h.getAllAuthor)

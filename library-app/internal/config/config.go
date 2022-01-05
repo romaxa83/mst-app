@@ -23,6 +23,7 @@ type (
 		HTTP        HTTPConfig
 		Postgres    PostgresConfig
 		FileStorage FileStorageConfig
+		Locale      Locale
 	}
 
 	HTTPConfig struct {
@@ -48,6 +49,10 @@ type (
 		AccessKey string
 		SecretKey string
 	}
+
+	Locale struct {
+		Default string `mapstructure:"default"`
+	}
 )
 
 // Init populates Config struct with values from config file
@@ -71,6 +76,10 @@ func Init(configsDir string) (*Config, error) {
 
 func unmarshal(cfg *Config) error {
 	if err := viper.UnmarshalKey("http", &cfg.HTTP); err != nil {
+		return err
+	}
+
+	if err := viper.UnmarshalKey("locale", &cfg.Locale); err != nil {
 		return err
 	}
 

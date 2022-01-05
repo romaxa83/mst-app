@@ -7,15 +7,18 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/romaxa83/mst-app/library-app/internal/config"
 	delivery "github.com/romaxa83/mst-app/library-app/internal/delivery/http"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/internal/repositories"
 	"github.com/romaxa83/mst-app/library-app/internal/server"
 	"github.com/romaxa83/mst-app/library-app/internal/services"
+	"github.com/romaxa83/mst-app/library-app/internal/utils"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
 	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"github.com/romaxa83/mst-app/library-app/pkg/storage"
+	"golang.org/x/text/language"
 	"net/http"
 	"os"
 	"os/signal"
@@ -82,10 +85,16 @@ func Run() {
 	storageProvider, err := newStorageProvider(cfg)
 	if err != nil {
 		logger.Error(err)
-
 		return
 	}
 	logger.Info("Init storage provider [minio]")
+
+	lang := language.English
+	if cfg.Locale.Default == language.Russian.String() {
+		lang = language.Russian
+	}
+	locale := utils.NewLocale(i18n.NewBundle(lang))
+	logger.Infof(fmt.Sprintf("Init locale, default - [%s]", lang))
 
 	// Services, Repos & API Handlers
 	repos := repositories.NewRepositories(db)
@@ -94,7 +103,7 @@ func Run() {
 		StorageProvider: storageProvider,
 		Environment:     cfg.Environment,
 	})
-	handlers := delivery.NewHandler(services)
+	handlers := delivery.NewHandler(services, locale)
 
 	// HTTP Server
 	srv := server.NewServer(cfg, handlers.Init(cfg))
