@@ -13,16 +13,33 @@
 </ul>
 
 ![-----------------------------------------------------](/storage/img/rainbow.png)
-##### features
-
-✅&nbsp;&nbsp;api documentation (http://127.0.0.1:8060/swagger/index.html) <br>
-✅&nbsp;&nbsp;crud for entities (category, author, book) <br>
-✅&nbsp;&nbsp;soft/hard delete, restore from archive <br>
-✅&nbsp;&nbsp; implementation relations - hasMany, many2many, polymorphic by gorm<br>
-✅&nbsp;&nbsp; pagination, filters <br>
-✅&nbsp;&nbsp; import data (only author) from file (only csv)<br>
-✅&nbsp;&nbsp; export data (only author) from file (only json)<br>
-✅&nbsp;&nbsp; upload image for author and send to storage (minio)<br>
+##### TODO
+- [x] api documentation (http://127.0.0.1:8060/swagger/index.html)
+- [ ] TLS
+- [x] crud
+    - [x] category
+    - [x] author
+    - [x] book
+- [ ] soft/hard delete, restore from archive
+    - [x] category
+    - [ ] author
+    - [ ] book
+- [x] implementation relations - hasMany, many2many, polymorphic by gorm
+- [x] pagination, filters
+- [ ] import data from file
+    - [ ] author
+      - [x] csv
+      - [ ] xls
+      - [ ] json
+- [ ] export data
+    - [ ] author
+        - [ ] csv
+        - [ ] xls
+        - [x] json
+- [ ] upload image and send to storage
+    - [x] author
+    - [ ] book
+- [ ] i18n
 
 ![-----------------------------------------------------](/storage/img/rainbow.png)
 ##### command
