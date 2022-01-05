@@ -45,5 +45,6 @@ info_domen:
 	echo '----------DEV--------------------';
 	echo MAILER http://192.168.141.1:8025
 	echo FTP-SERVER http://192.168.141.1:8081
+	echo MINIO 192.168.141.1:9000
 	echo '---------------------------------';
 .DEFAULT_GOAL := init

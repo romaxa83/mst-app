@@ -43,6 +43,31 @@ definitions:
     - country
     - name
     type: object
+  input.CreateBook:
+    properties:
+      author_id:
+        type: integer
+      category_ids:
+        items:
+          type: integer
+        type: array
+      desc:
+        type: string
+      pages:
+        type: integer
+      published_at:
+        type: string
+      qty:
+        type: integer
+      title:
+        maxLength: 256
+        type: string
+    required:
+    - author_id
+    - pages
+    - published_at
+    - title
+    type: object
   input.CreateCategory:
     properties:
       desc:
@@ -68,6 +93,30 @@ definitions:
         maxLength: 256
         type: string
     type: object
+  input.UpdateBook:
+    properties:
+      active:
+        type: boolean
+      author_id:
+        type: integer
+      category_ids:
+        items:
+          type: integer
+        type: array
+      desc:
+        type: string
+      pages:
+        type: integer
+      published_at:
+        type: string
+      qty:
+        type: integer
+      sort:
+        type: integer
+      title:
+        maxLength: 256
+        type: string
+    type: object
   input.UpdateCategory:
     properties:
       active:
@@ -80,25 +129,83 @@ definitions:
         maxLength: 256
         type: string
     type: object
+  resources.AuthorListResource:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   resources.AuthorResource:
     properties:
       bio:
         type: string
       birthday:
         type: string
+      books:
+        items:
+          $ref: '#/definitions/resources.BookListResource'
+        type: array
       country:
         type: string
       deathDate:
         type: string
       id:
         type: integer
+      images:
+        items:
+          $ref: '#/definitions/resources.MediaResource'
+        type: array
       name:
+        type: string
+    type: object
+  resources.BookListResource:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  resources.BookResource:
+    properties:
+      active:
+        type: boolean
+      author:
+        $ref: '#/definitions/resources.AuthorListResource'
+      categories:
+        items:
+          $ref: '#/definitions/resources.CategoryListResource'
+        type: array
+      desc:
+        type: string
+      id:
+        type: integer
+      pages:
+        type: integer
+      publishedAt:
+        type: string
+      qty:
+        type: integer
+      sort:
+        type: integer
+      title:
+        type: string
+    type: object
+  resources.CategoryListResource:
+    properties:
+      id:
+        type: integer
+      title:
         type: string
     type: object
   resources.CategoryResource:
     properties:
       active:
         type: boolean
+      books:
+        items:
+          $ref: '#/definitions/resources.BookListResource'
+        type: array
       desc:
         type: string
       id:
@@ -106,6 +213,19 @@ definitions:
       sort:
         type: integer
       title:
+        type: string
+    type: object
+  resources.MediaResource:
+    properties:
+      contentType:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      size:
+        type: integer
+      url:
         type: string
     type: object
 host: localhost:8060
@@ -432,6 +552,112 @@ paths:
       summary: Update author
       tags:
       - author
+  /api/authors/:id/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: upload image to author
+      operationId: upload-img-author
+      parameters:
+      - description: file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Upload image
+      tags:
+      - author
+  /api/authors/export:
+    get:
+      description: export authors
+      operationId: export-author
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Export author
+      tags:
+      - author
+  /api/authors/import:
+    post:
+      consumes:
+      - multipart/form-data
+      description: import some authors
+      operationId: import-author
+      parameters:
+      - description: file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Import author
+      tags:
+      - author
   /api/authors/list:
     get:
       consumes:
@@ -464,6 +690,198 @@ paths:
       summary: Get all authors list
       tags:
       - author
+  /api/books:
+    get:
+      consumes:
+      - application/json
+      description: get all books with pagination data
+      operationId: get-all-book-pagination
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: sort
+        in: query
+        name: sort
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: id
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.Pagination'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get all books paginator
+      tags:
+      - book
+    post:
+      consumes:
+      - application/json
+      description: create book
+      operationId: create-book
+      parameters:
+      - description: book info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.CreateBook'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/resources.BookResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Create book
+      tags:
+      - book
+  /api/books/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete book
+      operationId: delete-book
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Delete book (soft)
+      tags:
+      - book
+    get:
+      consumes:
+      - application/json
+      description: get one book by id
+      operationId: get-one-book
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.BookResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get one book
+      tags:
+      - book
+    put:
+      consumes:
+      - application/json
+      description: update book
+      operationId: update-book
+      parameters:
+      - description: book info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.UpdateBook'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.BookResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Update book
+      tags:
+      - book
   /api/categories:
     get:
       consumes:
