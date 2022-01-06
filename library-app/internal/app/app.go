@@ -42,6 +42,7 @@ import (
 // @name Authorization
 
 func Run() {
+
 	if err := godotenv.Load(); err != nil {
 		logger.Error("No .env file found")
 		return
@@ -93,6 +94,7 @@ func Run() {
 	if cfg.Locale.Default == language.Russian.String() {
 		lang = language.Russian
 	}
+
 	locale := utils.NewLocale(i18n.NewBundle(lang))
 	logger.Infof(fmt.Sprintf("Init locale, default - [%s]", lang))
 

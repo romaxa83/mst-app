@@ -9,7 +9,6 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/pkg/file"
-	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"io"
 	"net/http"
 	"os"
@@ -273,20 +272,7 @@ func loadFromJSON(filename string, key interface{}) error {
 // @Router /api/authors/import [post]
 func (h *Handler) importAuthor(c *gin.Context) {
 
-	//bundle := i18n.NewBundle(language.English)
-	//bundle.RegisterUnmarshalFunc("json", json.Unmarshal)
-	//bundle.LoadMessageFile("i18n/en.json")
-	//bundle.LoadMessageFile("i18n/ru.json")
-
-	//localizer := i18n.NewLocalizer(h.locale.Bundle, getLocale(c))
-	//
-	//localizeConfigWelcome := i18n.LocalizeConfig{
-	//	MessageID: "welcome",
-	//}
-	//localizationUsingJson, _ := localizer.Localize(&localizeConfigWelcome)
-	logger.Warn(h.locale.GetTranslate("welcome", getLocale(c)))
-
-	//l := NewLocale(i18n.NewBundle(language.English))
+	//logger.Warn(h.locale.GetTranslate(getLocale(c), "welcome", map[string]string{}))
 
 	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, models.MaxUploadSize)
 
@@ -307,8 +293,8 @@ func (h *Handler) importAuthor(c *gin.Context) {
 
 	// Validate File Type
 	if _, ex := models.ImportTypes[contentType]; !ex {
-		errorResponse(c, http.StatusBadRequest, h.locale.GetTranslate("invalid_file_type", getLocale(c)))
-		//errorResponse(c, http.StatusBadRequest, fmt.Sprintf("file type [%s] is not supported", contentType))
+		errorResponse(c, http.StatusBadRequest, h.locale.GetTranslate(getLocale(c), "invalid_file_type",
+			map[string]string{"Type": contentType}))
 		return
 	}
 

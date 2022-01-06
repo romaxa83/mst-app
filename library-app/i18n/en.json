@@ -1,5 +1,6 @@
 {
   "hello": "Hello!",
   "welcome": "Welcome to my app!",
-  "invalid_file_type": "file type is not supported"
+  "dog": "{{.Name}} rescued dog.",
+  "invalid_file_type": "file type {{.Type}} is not supported"
 }
