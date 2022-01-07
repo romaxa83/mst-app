@@ -39,7 +39,7 @@
 - [ ] upload image and send to storage
     - [x] author
     - [ ] book
-- [ ] i18n
+- [x] i18n
 
 ![-----------------------------------------------------](/storage/img/rainbow.png)
 ##### command
@@ -50,3 +50,13 @@ $ make run # run service
 $ make swagger # generate swagger docs
 $ make info # show info
 ```
+
+![-----------------------------------------------------](/storage/img/rainbow.png)
+##### system translate
+
+example for system translate to <i>delivery/http/author@importAuthor</i>
+
+to add a new translation, you need to create a new file in the <i>/i18n</i>
+folder load it in the utils file <i>/internal/utils/locale.go</i>
+
+

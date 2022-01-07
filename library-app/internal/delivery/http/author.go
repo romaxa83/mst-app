@@ -272,8 +272,6 @@ func loadFromJSON(filename string, key interface{}) error {
 // @Router /api/authors/import [post]
 func (h *Handler) importAuthor(c *gin.Context) {
 
-	//logger.Warn(h.locale.GetTranslate(getLocale(c), "welcome", map[string]string{}))
-
 	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, models.MaxUploadSize)
 
 	fileReq, fileHeader, err := c.Request.FormFile("file")
@@ -293,8 +291,12 @@ func (h *Handler) importAuthor(c *gin.Context) {
 
 	// Validate File Type
 	if _, ex := models.ImportTypes[contentType]; !ex {
-		errorResponse(c, http.StatusBadRequest, h.locale.GetTranslate(getLocale(c), "invalid_file_type",
-			map[string]string{"Type": contentType}))
+		errorResponse(c, http.StatusBadRequest,
+			h.locale.GetTranslateWithReplace(
+				getLocale(c),
+				"file.invalid type",
+				map[string]string{"Type": contentType}),
+		)
 		return
 	}
 
@@ -304,13 +306,15 @@ func (h *Handler) importAuthor(c *gin.Context) {
 
 	f, err := os.OpenFile(tempFilename, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0o666)
 	if err != nil {
-		errorResponse(c, http.StatusInternalServerError, "failed to create temp file")
+		errorResponse(c, http.StatusInternalServerError,
+			h.locale.GetTranslate(getLocale(c), "failed to create temp file"))
 		return
 	}
 	defer f.Close()
 
 	if _, err := io.Copy(f, bytes.NewReader(buffer)); err != nil {
-		errorResponse(c, http.StatusInternalServerError, "failed to write chunk to temp file")
+		errorResponse(c, http.StatusInternalServerError,
+			h.locale.GetTranslate(getLocale(c), "failed to write chunk to temp file"))
 		return
 	}
 
@@ -331,7 +335,7 @@ func (h *Handler) importAuthor(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, response{"ok"})
+	c.JSON(http.StatusOK, response{h.locale.GetTranslate(getLocale(c), "message.ok")})
 }
 
 // @Summary Export author

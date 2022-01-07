@@ -9,7 +9,7 @@ type Local struct {
 	Bundle *i18n.Bundle
 }
 
-type Template map[string]string
+type Replace map[string]string
 
 func NewLocale(bundle *i18n.Bundle) *Local {
 	bundle.RegisterUnmarshalFunc("json", json.Unmarshal)
@@ -19,12 +19,23 @@ func NewLocale(bundle *i18n.Bundle) *Local {
 	return &Local{bundle}
 }
 
-func (l *Local) GetTranslate(lang, alias string, template Template) string {
+func (l *Local) GetTranslate(lang, alias string) string {
+	localizer := i18n.NewLocalizer(l.Bundle, lang)
+
+	localizeConfigWelcome := i18n.LocalizeConfig{
+		MessageID: alias,
+	}
+	translate, _ := localizer.Localize(&localizeConfigWelcome)
+
+	return translate
+}
+
+func (l *Local) GetTranslateWithReplace(lang, alias string, replace Replace) string {
 	localizer := i18n.NewLocalizer(l.Bundle, lang)
 
 	localizeConfigWelcome := i18n.LocalizeConfig{
 		MessageID:    alias,
-		TemplateData: template,
+		TemplateData: replace,
 		PluralCount:  1,
 	}
 	translate, _ := localizer.Localize(&localizeConfigWelcome)
