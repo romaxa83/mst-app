@@ -1,6 +1,11 @@
 {
-  "hello": "Hello!",
   "welcome": "Welcome to my app!",
-  "dog": "{{.Name}} rescued dog.",
-  "invalid_file_type": "file type {{.Type}} is not supported"
+  "message": {
+    "ok": "ok"
+  },
+  "file" : {
+    "invalid type": "file type [{{.Type}}] is not supported",
+    "failed to create temp file": "failed to create temp file",
+    "failed to write chunk to temp file": "failed to write chunk to temp file"
+  }
 }
