@@ -12,6 +12,10 @@ const (
 	defaultHTTPRWTimeout          = 10 * time.Second
 	defaultHTTPMaxHeaderMegabytes = 1
 
+	defaultLimiterRPS   = 10
+	defaultLimiterBurst = 2
+	defaultLimiterTTL   = 10 * time.Minute
+
 	EnvLocal = "local"
 	Prod     = "prod"
 )
@@ -24,6 +28,7 @@ type (
 		Postgres    PostgresConfig
 		FileStorage FileStorageConfig
 		Locale      Locale
+		Limiter     LimiterConfig
 	}
 
 	HTTPConfig struct {
@@ -32,6 +37,12 @@ type (
 		ReadTimeout        time.Duration `mapstructure:"readTimeout"`
 		WriteTimeout       time.Duration `mapstructure:"writeTimeout"`
 		MaxHeaderMegabytes int           `mapstructure:"maxHeaderBytes"`
+	}
+
+	LimiterConfig struct {
+		RPS   int
+		Burst int
+		TTL   time.Duration
 	}
 
 	PostgresConfig struct {
@@ -91,6 +102,10 @@ func unmarshal(cfg *Config) error {
 		return err
 	}
 
+	if err := viper.UnmarshalKey("limiter", &cfg.Limiter); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -137,4 +152,8 @@ func populateDefaults() {
 	viper.SetDefault("http.max_header_megabytes", defaultHTTPMaxHeaderMegabytes)
 	viper.SetDefault("http.timeouts.read", defaultHTTPRWTimeout)
 	viper.SetDefault("http.timeouts.write", defaultHTTPRWTimeout)
+
+	viper.SetDefault("limiter.rps", defaultLimiterRPS)
+	viper.SetDefault("limiter.burst", defaultLimiterBurst)
+	viper.SetDefault("limiter.ttl", defaultLimiterTTL)
 }

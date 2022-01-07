@@ -15,7 +15,8 @@
 ![-----------------------------------------------------](/storage/img/rainbow.png)
 ##### TODO
 - [x] api documentation (http://127.0.0.1:8060/swagger/index.html)
-- [ ] TLS
+- [ ] security
+  - [ ] rate limiter
 - [x] crud
     - [x] category
     - [x] author

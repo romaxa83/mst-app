@@ -6,3 +6,7 @@ http:
 locale:
   default: "en" # support - en, ru
 
+limiter:
+  rps: 10
+  burst: 20
+  ttl: 10m
