@@ -34,8 +34,8 @@ func NewBookResource(model models.Book) *BookResource {
 }
 
 type BookListResource struct {
-	ID    int
-	Title string
+	ID    int    `json:"id"`
+	Title string `json:"title"`
 }
 
 func NewBookListResource(model models.Book) *BookListResource {

@@ -29,6 +29,7 @@ type (
 		FileStorage FileStorageConfig
 		Locale      Locale
 		Limiter     LimiterConfig
+		CacheTTL    time.Duration `mapstructure:"ttl"`
 	}
 
 	HTTPConfig struct {
@@ -87,6 +88,10 @@ func Init(configsDir string) (*Config, error) {
 
 func unmarshal(cfg *Config) error {
 	if err := viper.UnmarshalKey("http", &cfg.HTTP); err != nil {
+		return err
+	}
+
+	if err := viper.UnmarshalKey("cache.ttl", &cfg.CacheTTL); err != nil {
 		return err
 	}
 

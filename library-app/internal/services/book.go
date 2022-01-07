@@ -2,18 +2,22 @@ package services
 
 import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/input"
+	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/internal/repositories"
+	"github.com/romaxa83/mst-app/library-app/pkg/cache"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
 	value_obj "github.com/romaxa83/mst-app/library-app/pkg/value-obj"
 )
 
 type BookService struct {
-	repo repositories.Book
+	repo  repositories.Book
+	cache cache.Cache
+	ttl   int64
 }
 
-func NewBookService(repo repositories.Book) *BookService {
-	return &BookService{repo}
+func NewBookService(repo repositories.Book, cache cache.Cache, ttl int64) *BookService {
+	return &BookService{repo, cache, ttl}
 }
 
 func (s *BookService) Create(input input.CreateBook) (models.Book, error) {
@@ -22,6 +26,22 @@ func (s *BookService) Create(input input.CreateBook) (models.Book, error) {
 
 func (s *BookService) GetAllPagination(query input.GetBookQuery) (db.Pagination, error) {
 	return s.repo.GetAllPagination(query)
+}
+
+func (s *BookService) GetAllList() ([]resources.BookListResource, error) {
+
+	if value, err := s.cache.Get("book-list"); err == nil {
+		return value.([]resources.BookListResource), nil
+	}
+
+	list, err := s.repo.GetAllList()
+	if err != nil {
+		return []resources.BookListResource{}, err
+	}
+
+	err = s.cache.Set("book-list", list, s.ttl)
+
+	return list, err
 }
 
 func (s *BookService) GetOne(id value_obj.ID) (models.Book, error) {

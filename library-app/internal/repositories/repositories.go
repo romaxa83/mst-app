@@ -34,6 +34,7 @@ type Author interface {
 type Book interface {
 	Create(input input.CreateBook) (models.Book, error)
 	GetAllPagination(query input.GetBookQuery) (db.Pagination, error)
+	GetAllList() ([]resources.BookListResource, error)
 	GetOneById(id value_obj.ID) (models.Book, error)
 	Update(id value_obj.ID, input input.UpdateBook) (models.Book, error)
 	Delete(id value_obj.ID) error

@@ -7,7 +7,6 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/services"
 	"github.com/romaxa83/mst-app/library-app/internal/utils"
 	"github.com/romaxa83/mst-app/library-app/pkg/limiter"
-	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"net/http"
@@ -34,8 +33,6 @@ func NewHandler(services *services.Services, locale *utils.Local) *Handler {
 func (h *Handler) Init(cfg *config.Config) *gin.Engine {
 	// Init gin handler
 	router := gin.Default()
-
-	logger.Warnf("LIMIT CONF - %+v", cfg.Limiter)
 
 	router.Use(
 		gin.Recovery(),
@@ -80,6 +77,7 @@ func (h *Handler) Init(cfg *config.Config) *gin.Engine {
 		{
 			book.POST("/", h.createBook)
 			book.GET("/", h.getAllBook)
+			book.GET("/list", h.getAllBookList)
 			book.GET("/:id", h.getOneBook)
 			book.PUT("/:id", h.updateBook)
 			book.DELETE("/:id", h.deleteBook)

@@ -10,3 +10,6 @@ limiter:
   rps: 10
   burst: 20
   ttl: 10m
+
+cache:
+  ttl: 10s

@@ -15,6 +15,7 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/server"
 	"github.com/romaxa83/mst-app/library-app/internal/services"
 	"github.com/romaxa83/mst-app/library-app/internal/utils"
+	"github.com/romaxa83/mst-app/library-app/pkg/cache"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
 	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"github.com/romaxa83/mst-app/library-app/pkg/storage"
@@ -74,6 +75,9 @@ func Run() {
 	if err := models.InitModels(db); err != nil {
 		logger.Error("failed init db: %s", err.Error())
 	}
+	// cache
+	memCache := cache.NewMemoryCache()
+	logger.Info("Init memory cache")
 
 	// seeder
 	// todo нужно оптимизировать
@@ -104,6 +108,8 @@ func Run() {
 		Repos:           repos,
 		StorageProvider: storageProvider,
 		Environment:     cfg.Environment,
+		Cache:           memCache,
+		CacheTTL:        int64(cfg.CacheTTL.Seconds()),
 	})
 	handlers := delivery.NewHandler(services, locale)
 

@@ -96,6 +96,28 @@ func (h *Handler) getAllBook(c *gin.Context) {
 	c.JSON(http.StatusOK, results)
 }
 
+// @Summary Get all book list
+// @Tags book
+// @Description get all book list
+// @ID get-all-book-list
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} getAllListsResponse
+// @Failure 400,404 {object} response
+// @Failure 500 {object} response
+// @Failure default {object} response
+// @Router /api/books/list [get]
+func (h *Handler) getAllBookList(c *gin.Context) {
+
+	results, err := h.services.Book.GetAllList()
+	if err != nil {
+		errorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, getAllListsResponse{results})
+}
+
 // @Summary Update book
 // @Tags book
 // @Description update book

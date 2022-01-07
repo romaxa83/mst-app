@@ -16,7 +16,7 @@
 ##### TODO
 - [x] api documentation (http://127.0.0.1:8060/swagger/index.html)
 - [ ] security
-  - [ ] rate limiter
+  - [x] rate limiter
 - [x] crud
     - [x] category
     - [x] author
@@ -41,6 +41,9 @@
     - [x] author
     - [ ] book
 - [x] i18n
+- [ ] cache
+    - [x] memory (example author-list)
+    - [ ] redis
 
 ![-----------------------------------------------------](/storage/img/rainbow.png)
 ##### command

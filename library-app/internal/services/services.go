@@ -6,6 +6,7 @@ import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/internal/repositories"
+	"github.com/romaxa83/mst-app/library-app/pkg/cache"
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
 	"github.com/romaxa83/mst-app/library-app/pkg/storage"
 	value_obj "github.com/romaxa83/mst-app/library-app/pkg/value-obj"
@@ -35,6 +36,7 @@ type Author interface {
 type Book interface {
 	Create(input input.CreateBook) (models.Book, error)
 	GetAllPagination(query input.GetBookQuery) (db.Pagination, error)
+	GetAllList() ([]resources.BookListResource, error)
 	GetOne(id value_obj.ID) (models.Book, error)
 	Update(id value_obj.ID, input input.UpdateBook) (models.Book, error)
 	Delete(id value_obj.ID) error
@@ -61,13 +63,15 @@ type Deps struct {
 	Repos           *repositories.Repo
 	Environment     string
 	StorageProvider storage.Provider
+	Cache           cache.Cache
+	CacheTTL        int64
 }
 
 func NewServices(deps Deps) *Services {
 	return &Services{
 		Category: NewCategoryService(deps.Repos.Category),
 		Author:   NewAuthorService(deps.Repos.Author),
-		Book:     NewBookService(deps.Repos.Book),
+		Book:     NewBookService(deps.Repos.Book, deps.Cache, deps.CacheTTL),
 		Media:    NewMediaService(deps.Repos.Media, deps.StorageProvider, deps.Environment),
 		Import:   NewImportService(deps.Repos.Import, deps.Repos.Author),
 	}

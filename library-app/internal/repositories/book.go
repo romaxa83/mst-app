@@ -81,6 +81,16 @@ func (r *BookRepo) GetAllPagination(query input.GetBookQuery) (db.Pagination, er
 	return pagination, nil
 }
 
+func (r *BookRepo) GetAllList() ([]resources.BookListResource, error) {
+	var resources []resources.BookListResource
+	result := r.db.Model(&models.Book{}).Find(&resources)
+	if result.Error != nil {
+		return resources, result.Error
+	}
+
+	return resources, nil
+}
+
 func (r *BookRepo) Update(id value_obj.ID, input input.UpdateBook) (models.Book, error) {
 
 	var model models.Book
