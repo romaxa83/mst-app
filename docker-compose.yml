@@ -199,6 +199,10 @@ services:
     volumes:
       - ./docker/storage/mongo:/data/db
 
+
+volumes:
+  ./docker/storage/mongo:
+
 networks:
   default:
     driver: bridge
