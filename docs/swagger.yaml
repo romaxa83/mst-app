@@ -1,0 +1,1783 @@
+definitions:
+  db.Pagination:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+      rows: {}
+      sort:
+        type: string
+      totalPages:
+        type: integer
+      totalRows:
+        type: integer
+    type: object
+  domains.TodoItem:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      done:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - title
+    type: object
+  domains.TodoList:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - title
+    type: object
+  domains.UpdateItemInput:
+    properties:
+      description:
+        type: string
+      done:
+        type: boolean
+      title:
+        type: string
+    type: object
+  domains.UpdateTodoListInput:
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+    type: object
+  http.getAllListsResponse:
+    properties:
+      rows: {}
+    type: object
+  http.response:
+    properties:
+      message:
+        type: string
+    type: object
+  input.CreateAuthor:
+    properties:
+      bio:
+        type: string
+      birthday:
+        type: string
+      country:
+        maxLength: 256
+        type: string
+      death_date:
+        type: string
+      name:
+        maxLength: 256
+        type: string
+    required:
+    - bio
+    - birthday
+    - country
+    - name
+    type: object
+  input.CreateBook:
+    properties:
+      author_id:
+        type: integer
+      category_ids:
+        items:
+          type: integer
+        type: array
+      desc:
+        type: string
+      pages:
+        type: integer
+      published_at:
+        type: string
+      qty:
+        type: integer
+      title:
+        maxLength: 256
+        type: string
+    required:
+    - author_id
+    - pages
+    - published_at
+    - title
+    type: object
+  input.CreateCategory:
+    properties:
+      desc:
+        type: string
+      title:
+        maxLength: 256
+        type: string
+    required:
+    - title
+    type: object
+  input.UpdateAuthor:
+    properties:
+      bio:
+        type: string
+      birthday:
+        type: string
+      country:
+        maxLength: 256
+        type: string
+      death_date:
+        type: string
+      name:
+        maxLength: 256
+        type: string
+    type: object
+  input.UpdateBook:
+    properties:
+      active:
+        type: boolean
+      author_id:
+        type: integer
+      category_ids:
+        items:
+          type: integer
+        type: array
+      desc:
+        type: string
+      pages:
+        type: integer
+      published_at:
+        type: string
+      qty:
+        type: integer
+      sort:
+        type: integer
+      title:
+        maxLength: 256
+        type: string
+    type: object
+  input.UpdateCategory:
+    properties:
+      active:
+        type: boolean
+      desc:
+        type: string
+      sort:
+        type: integer
+      title:
+        maxLength: 256
+        type: string
+    type: object
+  resources.AuthorListResource:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  resources.AuthorResource:
+    properties:
+      bio:
+        type: string
+      birthday:
+        type: string
+      books:
+        items:
+          $ref: '#/definitions/resources.BookListResource'
+        type: array
+      country:
+        type: string
+      deathDate:
+        type: string
+      id:
+        type: integer
+      images:
+        items:
+          $ref: '#/definitions/resources.MediaResource'
+        type: array
+      name:
+        type: string
+    type: object
+  resources.BookListResource:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  resources.BookResource:
+    properties:
+      active:
+        type: boolean
+      author:
+        $ref: '#/definitions/resources.AuthorListResource'
+      categories:
+        items:
+          $ref: '#/definitions/resources.CategoryListResource'
+        type: array
+      desc:
+        type: string
+      id:
+        type: integer
+      pages:
+        type: integer
+      publishedAt:
+        type: string
+      qty:
+        type: integer
+      sort:
+        type: integer
+      title:
+        type: string
+    type: object
+  resources.CategoryListResource:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  resources.CategoryResource:
+    properties:
+      active:
+        type: boolean
+      books:
+        items:
+          $ref: '#/definitions/resources.BookListResource'
+        type: array
+      desc:
+        type: string
+      id:
+        type: integer
+      sort:
+        type: integer
+      title:
+        type: string
+    type: object
+  resources.MediaResource:
+    properties:
+      contentType:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      size:
+        type: integer
+      url:
+        type: string
+    type: object
+  services.UserSignUpInput:
+    properties:
+      email:
+        maxLength: 64
+        type: string
+      name:
+        maxLength: 64
+        minLength: 2
+        type: string
+      password:
+        maxLength: 64
+        minLength: 8
+        type: string
+      phone:
+        maxLength: 13
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - phone
+    type: object
+  v1.getAllItemsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domains.TodoItem'
+        type: array
+    type: object
+  v1.getAllListsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domains.TodoList'
+        type: array
+    type: object
+  v1.refreshInput:
+    properties:
+      token:
+        type: string
+    required:
+    - token
+    type: object
+  v1.response:
+    properties:
+      message:
+        type: string
+    type: object
+  v1.tokenResponse:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+    type: object
+  v1.uploadResponse:
+    properties:
+      url:
+        type: string
+    type: object
+  v1.userSignInInput:
+    properties:
+      email:
+        maxLength: 64
+        type: string
+      password:
+        maxLength: 64
+        minLength: 8
+        type: string
+    required:
+    - email
+    - password
+    type: object
+info:
+  contact:
+    email: romaxa83@ukr.net
+    name: Roman Rodomanov
+    url: https://github.com/romaxa83
+paths:
+  /admins/upload/image:
+    post:
+      consumes:
+      - multipart/form-data
+      description: upload file
+      parameters:
+      - description: file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.uploadResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Upload File
+      tags:
+      - upload
+  /api/archive/categories:
+    get:
+      consumes:
+      - application/json
+      description: Archive categories paginator/filter
+      operationId: archive-categories
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: sort
+        in: query
+        name: sort
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: id
+        in: query
+        name: id
+        type: integer
+      - description: active
+        in: query
+        name: active
+        type: boolean
+      - description: sort
+        in: query
+        name: sort
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.Pagination'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Archive categories paginator/filter
+      tags:
+      - category
+  /api/archive/categories/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete category from archive (hard)
+      operationId: delete-category-archive
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Delete category from archive
+      tags:
+      - category
+  /api/archive/categories/restore/:id:
+    put:
+      consumes:
+      - application/json
+      description: restore category from archive
+      operationId: restore-category
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.CategoryResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Restore category
+      tags:
+      - category
+  /api/authors:
+    get:
+      consumes:
+      - application/json
+      description: get all author with pagination data
+      operationId: get-all-author-pagination
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: sort
+        in: query
+        name: sort
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: id
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.Pagination'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get all authors paginator
+      tags:
+      - author
+    post:
+      consumes:
+      - application/json
+      description: create authors of books
+      operationId: create-author
+      parameters:
+      - description: author info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.CreateAuthor'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/resources.AuthorResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Create author
+      tags:
+      - author
+  /api/authors/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete author of books (soft)
+      operationId: delete-author
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Delete author (soft)
+      tags:
+      - author
+    get:
+      consumes:
+      - application/json
+      description: get one author by id
+      operationId: get-one-author
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.AuthorResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get one author
+      tags:
+      - author
+    put:
+      consumes:
+      - application/json
+      description: update author of books
+      operationId: update-author
+      parameters:
+      - description: author info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.UpdateAuthor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.AuthorResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Update author
+      tags:
+      - author
+  /api/authors/:id/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: upload image to author
+      operationId: upload-img-author
+      parameters:
+      - description: file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Upload image
+      tags:
+      - author
+  /api/authors/export:
+    get:
+      description: export authors
+      operationId: export-author
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Export author
+      tags:
+      - author
+  /api/authors/import:
+    post:
+      consumes:
+      - multipart/form-data
+      description: import some authors
+      operationId: import-author
+      parameters:
+      - description: file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Import author
+      tags:
+      - author
+  /api/authors/list:
+    get:
+      consumes:
+      - application/json
+      description: get all author list
+      operationId: get-all-author-list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.getAllListsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get all authors list
+      tags:
+      - author
+  /api/books:
+    get:
+      consumes:
+      - application/json
+      description: get all books with pagination data
+      operationId: get-all-book-pagination
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: sort
+        in: query
+        name: sort
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: id
+        in: query
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.Pagination'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get all books paginator
+      tags:
+      - book
+    post:
+      consumes:
+      - application/json
+      description: create book
+      operationId: create-book
+      parameters:
+      - description: book info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.CreateBook'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/resources.BookResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Create book
+      tags:
+      - book
+  /api/books/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete book
+      operationId: delete-book
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Delete book (soft)
+      tags:
+      - book
+    get:
+      consumes:
+      - application/json
+      description: get one book by id
+      operationId: get-one-book
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.BookResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get one book
+      tags:
+      - book
+    put:
+      consumes:
+      - application/json
+      description: update book
+      operationId: update-book
+      parameters:
+      - description: book info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.UpdateBook'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.BookResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Update book
+      tags:
+      - book
+  /api/books/list:
+    get:
+      consumes:
+      - application/json
+      description: get all book list
+      operationId: get-all-book-list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.getAllListsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get all book list
+      tags:
+      - book
+  /api/categories:
+    get:
+      consumes:
+      - application/json
+      description: get all categories with pagination data
+      operationId: get-all-category-pagination
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: sort
+        in: query
+        name: sort
+        type: string
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: id
+        in: query
+        name: id
+        type: integer
+      - description: active
+        in: query
+        name: active
+        type: boolean
+      - description: sort
+        in: query
+        name: sort
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.Pagination'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get all categories paginator
+      tags:
+      - category
+    post:
+      consumes:
+      - application/json
+      description: create categories of books
+      operationId: create-category
+      parameters:
+      - description: category info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.CreateCategory'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/resources.CategoryResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Create category
+      tags:
+      - category
+  /api/categories/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete category of books (soft)
+      operationId: delete-category
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/http.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Delete category (soft)
+      tags:
+      - category
+    get:
+      consumes:
+      - application/json
+      description: get one category by id
+      operationId: get-one-category
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.CategoryResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get one category
+      tags:
+      - category
+    put:
+      consumes:
+      - application/json
+      description: update category of books
+      operationId: update-category
+      parameters:
+      - description: category info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/input.UpdateCategory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/resources.CategoryResource'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Update category
+      tags:
+      - category
+  /api/categories/list:
+    get:
+      consumes:
+      - application/json
+      description: get all categories list
+      operationId: get-all-category-list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.getAllListsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/http.response'
+      summary: Get all categories list
+      tags:
+      - category
+  /api/v1/items:
+    get:
+      consumes:
+      - application/json
+      description: get all items by list
+      operationId: get-all-items
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.getAllItemsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Items
+      tags:
+      - todo.txt-items
+  /api/v1/items/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete item (soft)
+      operationId: delete-list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Item (soft)
+      tags:
+      - todo.txt-items
+    get:
+      consumes:
+      - application/json
+      description: get one item by id
+      operationId: get-one-items
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domains.TodoItem'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get One Item
+      tags:
+      - todo.txt-items
+    put:
+      consumes:
+      - application/json
+      description: update item
+      operationId: update-item
+      parameters:
+      - description: update item info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domains.UpdateItemInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Item
+      tags:
+      - todo.txt-items
+  /api/v1/lists:
+    get:
+      consumes:
+      - application/json
+      description: get all lists
+      operationId: get-all-lists
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.getAllListsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Lists
+      tags:
+      - todo.txt-lists
+    post:
+      consumes:
+      - application/json
+      description: create list
+      operationId: create-list
+      parameters:
+      - description: list info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domains.TodoList'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create List
+      tags:
+      - todo.txt-lists
+  /api/v1/lists/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete list (soft)
+      operationId: delete-list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete List (soft)
+      tags:
+      - todo.txt-lists
+    get:
+      consumes:
+      - application/json
+      description: get one list by id
+      operationId: get-one-lists
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domains.TodoList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get One List
+      tags:
+      - todo.txt-lists
+    put:
+      consumes:
+      - application/json
+      description: update list
+      operationId: update-list
+      parameters:
+      - description: update list info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domains.UpdateTodoListInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      security:
+      - ApiKeyAuth: []
+      summary: Update List
+      tags:
+      - todo.txt-lists
+  /api/v1/lists/:id/items:
+    post:
+      consumes:
+      - application/json
+      description: create items for todo.txt-list
+      operationId: create-item
+      parameters:
+      - description: item info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domains.TodoItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create Item
+      tags:
+      - todo.txt-items
+  /users/auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: user refresh tokens
+      parameters:
+      - description: sign up info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/v1.refreshInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.tokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: User Refresh Tokens
+      tags:
+      - users-auth
+  /users/sign-in:
+    post:
+      consumes:
+      - application/json
+      description: user sign in
+      parameters:
+      - description: sign up info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/v1.userSignInInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.tokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: User SignIn
+      tags:
+      - users-auth
+  /users/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: create user account
+      operationId: user-sign-up
+      parameters:
+      - description: sign up info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/services.UserSignUpInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: User SignUp
+      tags:
+      - users-auth
+swagger: "2.0"

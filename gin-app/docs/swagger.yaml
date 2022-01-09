@@ -48,6 +48,28 @@ definitions:
       title:
         type: string
     type: object
+  services.UserSignUpInput:
+    properties:
+      email:
+        maxLength: 64
+        type: string
+      name:
+        maxLength: 64
+        minLength: 2
+        type: string
+      password:
+        maxLength: 64
+        minLength: 8
+        type: string
+      phone:
+        maxLength: 13
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - phone
+    type: object
   v1.getAllItemsResponse:
     properties:
       data:
@@ -81,6 +103,11 @@ definitions:
       refreshToken:
         type: string
     type: object
+  v1.uploadResponse:
+    properties:
+      url:
+        type: string
+    type: object
   v1.userSignInInput:
     properties:
       email:
@@ -94,35 +121,50 @@ definitions:
     - email
     - password
     type: object
-  v1.userSignUpInput:
-    properties:
-      email:
-        maxLength: 64
-        type: string
-      name:
-        maxLength: 64
-        minLength: 2
-        type: string
-      password:
-        maxLength: 64
-        minLength: 8
-        type: string
-      phone:
-        maxLength: 13
-        type: string
-    required:
-    - email
-    - name
-    - password
-    - phone
-    type: object
-host: localhost:8000
+host: localhost:8080
 info:
   contact: {}
-  description: REST API for Creatly App
-  title: Creatly API
+  description: REST API for Gin-App
+  title: Gin-App API
   version: "1.0"
 paths:
+  /admins/upload/image:
+    post:
+      consumes:
+      - multipart/form-data
+      description: upload file
+      parameters:
+      - description: file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.uploadResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Upload File
+      tags:
+      - upload
   /api/v1/items:
     get:
       consumes:
@@ -574,7 +616,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/v1.userSignUpInput'
+          $ref: '#/definitions/services.UserSignUpInput'
       produces:
       - application/json
       responses:
@@ -603,10 +645,6 @@ paths:
       - users-auth
 securityDefinitions:
   AdminAuth:
-    in: header
-    name: Authorization
-    type: apiKey
-  StudentsAuth:
     in: header
     name: Authorization
     type: apiKey

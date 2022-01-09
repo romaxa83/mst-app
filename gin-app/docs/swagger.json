@@ -1,14 +1,70 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "REST API for Creatly App",
-        "title": "Creatly API",
+        "description": "REST API for Gin-App",
+        "title": "Gin-App API",
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8000",
+    "host": "localhost:8080",
     "basePath": "/api/v1/",
     "paths": {
+        "/admins/upload/image": {
+            "post": {
+                "description": "upload file",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "upload"
+                ],
+                "summary": "Upload File",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/v1.uploadResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/items": {
             "get": {
                 "security": [
@@ -24,7 +80,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "todo-items"
+                    "todo.txt-items"
                 ],
                 "summary": "Get All Items",
                 "operationId": "get-all-items",
@@ -77,7 +133,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "todo-items"
+                    "todo.txt-items"
                 ],
                 "summary": "Get One Item",
                 "operationId": "get-one-items",
@@ -128,7 +184,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "todo-items"
+                    "todo.txt-items"
                 ],
                 "summary": "Update Item",
                 "operationId": "update-item",
@@ -190,7 +246,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "todo-items"
+                    "todo.txt-items"
                 ],
                 "summary": "Delete Item (soft)",
                 "operationId": "delete-list",
@@ -243,7 +299,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "todo-lists"
+                    "todo.txt-lists"
                 ],
                 "summary": "Get All Lists",
                 "operationId": "get-all-lists",
@@ -294,7 +350,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "todo-lists"
+                    "todo.txt-lists"
                 ],
                 "summary": "Create List",
                 "operationId": "create-list",
@@ -358,7 +414,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "todo-lists"
+                    "todo.txt-lists"
                 ],
                 "summary": "Get One List",
                 "operationId": "get-one-lists",
@@ -409,7 +465,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "todo-lists"
+                    "todo.txt-lists"
                 ],
                 "summary": "Update List",
                 "operationId": "update-list",
@@ -471,7 +527,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "todo-lists"
+                    "todo.txt-lists"
                 ],
                 "summary": "Delete List (soft)",
                 "operationId": "delete-list",
@@ -516,7 +572,7 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "create items for todo-list",
+                "description": "create items for todo.txt-list",
                 "consumes": [
                     "application/json"
                 ],
@@ -524,7 +580,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "todo-items"
+                    "todo.txt-items"
                 ],
                 "summary": "Create Item",
                 "operationId": "create-item",
@@ -710,7 +766,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/v1.userSignUpInput"
+                            "$ref": "#/definitions/services.UserSignUpInput"
                         }
                     }
                 ],
@@ -824,6 +880,35 @@
                 }
             }
         },
+        "services.UserSignUpInput": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password",
+                "phone"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 2
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
+                },
+                "phone": {
+                    "type": "string",
+                    "maxLength": 13
+                }
+            }
+        },
         "v1.getAllItemsResponse": {
             "type": "object",
             "properties": {
@@ -876,6 +961,14 @@
                 }
             }
         },
+        "v1.uploadResponse": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
         "v1.userSignInInput": {
             "type": "object",
             "required": [
@@ -893,44 +986,10 @@
                     "minLength": 8
                 }
             }
-        },
-        "v1.userSignUpInput": {
-            "type": "object",
-            "required": [
-                "email",
-                "name",
-                "password",
-                "phone"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "maxLength": 64
-                },
-                "name": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 2
-                },
-                "password": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 8
-                },
-                "phone": {
-                    "type": "string",
-                    "maxLength": 13
-                }
-            }
         }
     },
     "securityDefinitions": {
         "AdminAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
-        },
-        "StudentsAuth": {
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"

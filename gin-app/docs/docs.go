@@ -23,6 +23,62 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/admins/upload/image": {
+            "post": {
+                "description": "upload file",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "upload"
+                ],
+                "summary": "Upload File",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/v1.uploadResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/items": {
             "get": {
                 "security": [
@@ -724,7 +780,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/v1.userSignUpInput"
+                            "$ref": "#/definitions/services.UserSignUpInput"
                         }
                     }
                 ],
@@ -838,6 +894,35 @@ var doc = `{
                 }
             }
         },
+        "services.UserSignUpInput": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password",
+                "phone"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 2
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 8
+                },
+                "phone": {
+                    "type": "string",
+                    "maxLength": 13
+                }
+            }
+        },
         "v1.getAllItemsResponse": {
             "type": "object",
             "properties": {
@@ -890,6 +975,14 @@ var doc = `{
                 }
             }
         },
+        "v1.uploadResponse": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
         "v1.userSignInInput": {
             "type": "object",
             "required": [
@@ -907,44 +1000,10 @@ var doc = `{
                     "minLength": 8
                 }
             }
-        },
-        "v1.userSignUpInput": {
-            "type": "object",
-            "required": [
-                "email",
-                "name",
-                "password",
-                "phone"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "maxLength": 64
-                },
-                "name": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 2
-                },
-                "password": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 8
-                },
-                "phone": {
-                    "type": "string",
-                    "maxLength": 13
-                }
-            }
         }
     },
     "securityDefinitions": {
         "AdminAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
-        },
-        "StudentsAuth": {
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"
@@ -969,11 +1028,11 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "localhost:8000",
+	Host:        "localhost:8080",
 	BasePath:    "/api/v1/",
 	Schemes:     []string{},
-	Title:       "Creatly API",
-	Description: "REST API for Creatly App",
+	Title:       "Gin-App API",
+	Description: "REST API for Gin-App",
 }
 
 type s struct{}

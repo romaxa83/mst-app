@@ -28,7 +28,7 @@ type userSignInInput struct {
 // @ID user-sign-up
 // @Accept  json
 // @Produce  json
-// @Param input body userSignUpInput true "sign up info"
+// @Param input body services.UserSignUpInput true "sign up info"
 // @Success 201 {string} string "ok"
 // @Failure 400,404 {object} response
 // @Failure 500 {object} response
