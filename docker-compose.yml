@@ -136,7 +136,7 @@ services:
       KAFKA_JMX_PORT: 9999
       KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-127.0.0.1}
     volumes:
-      - ./doker/storage/kafka1/data:/var/lib/kafka/data
+      - ./docker/storage/kafka1/data:/var/lib/kafka/data
     depends_on:
       - zoo1
 
