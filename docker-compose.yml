@@ -30,8 +30,8 @@ services:
 
   postgesql:
     image: postgres:13-alpine
-    container_name: microservices_postgesql
-    hostname: mst__pg_db_service
+    container_name: mst__pg_db_s
+    hostname: mst__pg_db_s
     expose:
       - "5432"
     ports:
@@ -140,6 +140,17 @@ services:
     depends_on:
       - zoo1
 
+  kafdrop:
+    container_name: kafdrop
+    image: obsidiandynamics/kafdrop
+    restart: "no"
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka1:19092"
+    depends_on:
+      - kafka1
+
   jaeger:
     container_name: mst__jaeger
     restart: always
@@ -199,9 +210,32 @@ services:
     volumes:
       - ./docker/storage/mongo:/data/db
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./monitoring/prometheus_docker.yml:/etc/prometheus/prometheus.yml:ro
 
-volumes:
-  ./docker/storage/mongo:
+  node_exporter:
+    container_name: node_exporter_container
+    restart: always
+    image: prom/node-exporter
+    ports:
+      - '9101:9100'
+
+  grafana:
+    container_name: grafana_container
+    restart: always
+    image: grafana/grafana
+    ports:
+      - '3005:3000'
+
+#volumes:
+#  ./docker/storage/mongo:
 
 networks:
   default:

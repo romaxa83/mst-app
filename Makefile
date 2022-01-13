@@ -136,11 +136,14 @@ proto_writer_message:
 info_domen:
 	echo '---------------------------------';
 	echo '----------DEV--------------------';
-	echo MAILER http://192.168.141.1:8025
-	echo FTP-SERVER http://192.168.141.1:8081
-	echo MINIO 192.168.141.1:9000
-	echo JAEGER http://localhost:16686
-	echo SWAGGER http://127.0.0.1:5001/swagger/index.html
-	echo METRICS http://http://127.0.0.1:8001/metrics
+	echo MAILER - http://192.168.141.1:8025
+	echo FTP-SERVER - http://192.168.141.1:8081
+	echo MINIO - 192.168.141.1:9000
+	echo JAEGER - http://localhost:16686
+	echo SWAGGER - http://127.0.0.1:5001/swagger/index.html
+	echo METRICS - http://127.0.0.1:8001/metrics
+	echo KAFKA UI - http://127.0.0.1:9000
+	echo Prometheus UI - http://localhost:9090
+	echo Grafana UI - http://localhost:3005
 	echo '---------------------------------';
 .DEFAULT_GOAL := init
