@@ -7,7 +7,6 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"net/http"
 	"time"
 )
 
@@ -21,12 +20,12 @@ func (s *server) runHealthCheck(ctx context.Context) {
 		return errors.New("Config not loaded")
 	}, time.Duration(s.cfg.Probes.CheckIntervalSeconds)*time.Second))
 
-	go func() {
-		s.log.Infof("API_Gateway Kubernetes probes listening on port: %s", s.cfg.Probes.Port)
-		if err := http.ListenAndServe(s.cfg.Probes.Port, health); err != nil {
-			s.log.WarnMsg("ListenAndServe", err)
-		}
-	}()
+	//go func() {
+	//	s.log.Infof("API_Gateway Kubernetes probes listening on port: %s", s.cfg.Probes.Port)
+	//	if err := http.ListenAndServe(s.cfg.Probes.Port, health); err != nil {
+	//		s.log.WarnMsg("ListenAndServe", err)
+	//	}
+	//}()
 }
 
 func (s *server) runMetrics(cancel context.CancelFunc) {

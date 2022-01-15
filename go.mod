@@ -23,6 +23,7 @@ require (
 	github.com/labstack/echo/v4 v4.6.2 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/minio/minio-go/v7 v7.0.21 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/pierrec/lz4 v2.6.1+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect

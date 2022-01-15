@@ -15,6 +15,7 @@ type ApiGatewayMetrics struct {
 	DeleteProductHttpRequests  prometheus.Counter
 	GetProductByIdHttpRequests prometheus.Counter
 	SearchProductHttpRequests  prometheus.Counter
+	CreateAuthorHttpRequests   prometheus.Counter
 }
 
 func NewApiGatewayMetrics(cfg *config.Config) *ApiGatewayMetrics {
@@ -27,6 +28,7 @@ func NewApiGatewayMetrics(cfg *config.Config) *ApiGatewayMetrics {
 			Name: fmt.Sprintf("%s_error_http_requests_total", cfg.ServiceName),
 			Help: "The total number of error http requests",
 		}),
+		// product
 		CreateProductHttpRequests: promauto.NewCounter(prometheus.CounterOpts{
 			Name: fmt.Sprintf("%s_create_product_http_requests_total", cfg.ServiceName),
 			Help: "The total number of create product http requests",
@@ -46,6 +48,11 @@ func NewApiGatewayMetrics(cfg *config.Config) *ApiGatewayMetrics {
 		SearchProductHttpRequests: promauto.NewCounter(prometheus.CounterOpts{
 			Name: fmt.Sprintf("%s_search_product_http_requests_total", cfg.ServiceName),
 			Help: "The total number of search product http requests",
+		}),
+		// author
+		CreateAuthorHttpRequests: promauto.NewCounter(prometheus.CounterOpts{
+			Name: fmt.Sprintf("%s_create_author_http_requests_total", cfg.ServiceName),
+			Help: "The total number of create author http requests",
 		}),
 	}
 }

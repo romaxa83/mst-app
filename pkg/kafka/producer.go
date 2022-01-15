@@ -19,7 +19,11 @@ type producer struct {
 
 // NewProducer create new kafka producer
 func NewProducer(log logger.Logger, brokers []string) *producer {
-	return &producer{log: log, brokers: brokers, w: NewWriter(brokers, kafka.LoggerFunc(log.Errorf))}
+	return &producer{
+		log:     log,
+		brokers: brokers,
+		w:       NewWriter(brokers, kafka.LoggerFunc(log.Errorf)),
+	}
 }
 
 func (p *producer) PublishMessage(ctx context.Context, msgs ...kafka.Message) error {

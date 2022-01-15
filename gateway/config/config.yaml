@@ -6,6 +6,7 @@ http:
   development: true
   basePath: /api/v1
   productsPath: /api/v1/products
+  AuthorsPath: /api/v1/authors
   debugHeaders: false
   httpClientDebug: false
   debugErrorsResponse: true
@@ -37,6 +38,10 @@ kafkaTopics:
     replicationFactor: 1
   productDelete:
     topicName: product_delete
+    partitions: 10
+    replicationFactor: 1
+  authorCreate:
+    topicName: author_create
     partitions: 10
     replicationFactor: 1
 redis:

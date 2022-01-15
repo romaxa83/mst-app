@@ -36,6 +36,7 @@ type Http struct {
 	Development         bool     `mapstructure:"development"`
 	BasePath            string   `mapstructure:"basePath"`
 	ProductsPath        string   `mapstructure:"productsPath"`
+	AuthorsPath         string   `mapstructure:"authorsPath"`
 	DebugHeaders        bool     `mapstructure:"debugHeaders"`
 	HttpClientDebug     bool     `mapstructure:"httpClientDebug"`
 	DebugErrorsResponse bool     `mapstructure:"debugErrorsResponse"`
@@ -50,6 +51,7 @@ type KafkaTopics struct {
 	ProductCreate kafka.TopicConfig `mapstructure:"productCreate"`
 	ProductUpdate kafka.TopicConfig `mapstructure:"productUpdate"`
 	ProductDelete kafka.TopicConfig `mapstructure:"productDelete"`
+	AuthorCreate  kafka.TopicConfig `mapstructure:"authorCreate"`
 }
 
 func InitConfig() (*Config, error) {
@@ -83,8 +85,10 @@ func InitConfig() (*Config, error) {
 	if httpPort != "" {
 		cfg.Http.Port = httpPort
 	}
+
 	kafkaBrokers := os.Getenv(constants.KafkaBrokers)
 	if kafkaBrokers != "" {
+
 		cfg.Kafka.Brokers = []string{kafkaBrokers}
 	}
 	jaegerAddr := os.Getenv(constants.JaegerHostPort)

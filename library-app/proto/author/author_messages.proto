@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package libraryService;
+
+option go_package = "./;libraryService";
+
+message Author {
+  string ID = 1;
+  string Name = 2;
+  string Bio = 3;
+  int64  Birthday = 4;
+  google.protobuf.Timestamp CreatedAt = 6;
+  google.protobuf.Timestamp UpdatedAt = 7;
+}
+
+message CreateAuthorReq {
+  string ID = 1;
+  string Name = 2;
+  string Bio = 3;
+  int64  Birthday = 4;
+}
+
+message CreateAuthorRes {
+  string ID = 1;
+}

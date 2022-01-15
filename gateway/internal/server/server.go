@@ -6,6 +6,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/opentracing/opentracing-go"
 	"github.com/romaxa83/mst-app/gateway/config"
+	v1author "github.com/romaxa83/mst-app/gateway/internal/author/delivery/http/v1"
+	authorService "github.com/romaxa83/mst-app/gateway/internal/author/service"
 	"github.com/romaxa83/mst-app/gateway/internal/client"
 	"github.com/romaxa83/mst-app/gateway/internal/metrics"
 	"github.com/romaxa83/mst-app/gateway/internal/middlewares"
@@ -29,11 +31,17 @@ type server struct {
 	im   interceptors.InterceptorManager
 	echo *echo.Echo
 	ps   *service.ProductService
+	as   *authorService.AuthorService
 	m    *metrics.ApiGatewayMetrics
 }
 
 func NewServer(log logger.Logger, cfg *config.Config) *server {
-	return &server{log: log, cfg: cfg, echo: echo.New(), v: validator.New()}
+	return &server{
+		log:  log,
+		cfg:  cfg,
+		echo: echo.New(),
+		v:    validator.New(),
+	}
 }
 
 func (s *server) Run() error {
@@ -55,9 +63,15 @@ func (s *server) Run() error {
 	defer kafkaProducer.Close() // nolint: errcheck
 
 	s.ps = service.NewProductService(s.log, s.cfg, kafkaProducer, rsClient)
+	s.as = authorService.NewAuthorService(s.log, s.cfg, kafkaProducer, rsClient)
 
 	productHandlers := v1.NewProductsHandlers(s.echo.Group(s.cfg.Http.ProductsPath), s.log, s.mw, s.cfg, s.ps, s.v, s.m)
 	productHandlers.MapRoutes()
+
+	//s.log.Warnf("%+v", s.cfg.KafkaTopics)
+
+	authorHandlers := v1author.NewAuthorsHandlers(s.echo.Group(s.cfg.Http.AuthorsPath), s.log, s.mw, s.cfg, s.as, s.v, s.m)
+	authorHandlers.MapRoutes()
 
 	go func() {
 		if err := s.runHttpServer(); err != nil {

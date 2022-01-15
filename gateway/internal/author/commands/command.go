@@ -1,6 +1,8 @@
 package commands
 
-import "github.com/romaxa83/mst-app/gateway/internal/dto/author"
+import (
+	"github.com/romaxa83/mst-app/gateway/internal/dto"
+)
 
 type AuthorCmds struct {
 	CreateAuthor CreateAuthorCmdHandler

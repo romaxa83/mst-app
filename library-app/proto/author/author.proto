@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package libraryService;
+
+option go_package = "./;libraryService";
+
+import "author_messages.proto";
+
+
+service writerService {
+  rpc CreateAuthor(CreateAuthorReq) returns (CreateAuthorRes);
+}

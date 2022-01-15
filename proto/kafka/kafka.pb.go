@@ -438,6 +438,211 @@ func (x *ProductDeleted) GetProductID() string {
 	return ""
 }
 
+type AuthorCreate struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID       string `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Name     string `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	Bio      string `protobuf:"bytes,3,opt,name=Bio,proto3" json:"Bio,omitempty"`
+	Birthday int64  `protobuf:"varint,4,opt,name=Birthday,proto3" json:"Birthday,omitempty"` //  google.protobuf.Timestamp Birthday = 4;
+}
+
+func (x *AuthorCreate) Reset() {
+	*x = AuthorCreate{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_kafka_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AuthorCreate) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AuthorCreate) ProtoMessage() {}
+
+func (x *AuthorCreate) ProtoReflect() protoreflect.Message {
+	mi := &file_kafka_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AuthorCreate.ProtoReflect.Descriptor instead.
+func (*AuthorCreate) Descriptor() ([]byte, []int) {
+	return file_kafka_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *AuthorCreate) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *AuthorCreate) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *AuthorCreate) GetBio() string {
+	if x != nil {
+		return x.Bio
+	}
+	return ""
+}
+
+func (x *AuthorCreate) GetBirthday() int64 {
+	if x != nil {
+		return x.Birthday
+	}
+	return 0
+}
+
+type Author struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID        string               `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Name      string               `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	Bio       string               `protobuf:"bytes,3,opt,name=Bio,proto3" json:"Bio,omitempty"`
+	Birthday  *timestamp.Timestamp `protobuf:"bytes,4,opt,name=Birthday,proto3" json:"Birthday,omitempty"`
+	CreatedAt *timestamp.Timestamp `protobuf:"bytes,6,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
+	UpdatedAt *timestamp.Timestamp `protobuf:"bytes,7,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
+}
+
+func (x *Author) Reset() {
+	*x = Author{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_kafka_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Author) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Author) ProtoMessage() {}
+
+func (x *Author) ProtoReflect() protoreflect.Message {
+	mi := &file_kafka_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Author.ProtoReflect.Descriptor instead.
+func (*Author) Descriptor() ([]byte, []int) {
+	return file_kafka_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *Author) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *Author) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Author) GetBio() string {
+	if x != nil {
+		return x.Bio
+	}
+	return ""
+}
+
+func (x *Author) GetBirthday() *timestamp.Timestamp {
+	if x != nil {
+		return x.Birthday
+	}
+	return nil
+}
+
+func (x *Author) GetCreatedAt() *timestamp.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *Author) GetUpdatedAt() *timestamp.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+type AuthorCreated struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Author *Author `protobuf:"bytes,1,opt,name=Author,proto3" json:"Author,omitempty"`
+}
+
+func (x *AuthorCreated) Reset() {
+	*x = AuthorCreated{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_kafka_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AuthorCreated) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AuthorCreated) ProtoMessage() {}
+
+func (x *AuthorCreated) ProtoReflect() protoreflect.Message {
+	mi := &file_kafka_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AuthorCreated.ProtoReflect.Descriptor instead.
+func (*AuthorCreated) Descriptor() ([]byte, []int) {
+	return file_kafka_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *AuthorCreated) GetAuthor() *Author {
+	if x != nil {
+		return x.Author
+	}
+	return nil
+}
+
 var File_kafka_proto protoreflect.FileDescriptor
 
 var file_kafka_proto_rawDesc = []byte{
@@ -489,8 +694,33 @@ var file_kafka_proto_rawDesc = []byte{
 	0x63, 0x74, 0x49, 0x44, 0x22, 0x2e, 0x0a, 0x0e, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x44,
 	0x65, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63,
 	0x74, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x50, 0x72, 0x6f, 0x64, 0x75,
-	0x63, 0x74, 0x49, 0x44, 0x42, 0x12, 0x5a, 0x10, 0x2e, 0x2f, 0x3b, 0x6b, 0x61, 0x66, 0x6b, 0x61,
-	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x63, 0x74, 0x49, 0x44, 0x22, 0x60, 0x0a, 0x0c, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x02, 0x49, 0x44, 0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x42, 0x69, 0x6f, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x42, 0x69, 0x6f, 0x12, 0x1a, 0x0a, 0x08, 0x42, 0x69,
+	0x72, 0x74, 0x68, 0x64, 0x61, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x03, 0x52, 0x08, 0x42, 0x69,
+	0x72, 0x74, 0x68, 0x64, 0x61, 0x79, 0x22, 0xea, 0x01, 0x0a, 0x06, 0x41, 0x75, 0x74, 0x68, 0x6f,
+	0x72, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49,
+	0x44, 0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x42, 0x69, 0x6f, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x03, 0x42, 0x69, 0x6f, 0x12, 0x36, 0x0a, 0x08, 0x42, 0x69, 0x72, 0x74, 0x68,
+	0x64, 0x61, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65,
+	0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x08, 0x42, 0x69, 0x72, 0x74, 0x68, 0x64, 0x61, 0x79, 0x12,
+	0x38, 0x0a, 0x09, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x06, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x09,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x38, 0x0a, 0x09, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54,
+	0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x09, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x64, 0x41, 0x74, 0x22, 0x3e, 0x0a, 0x0d, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x64, 0x12, 0x2d, 0x0a, 0x06, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x6b, 0x61, 0x66, 0x6b, 0x61, 0x4d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x73, 0x2e, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x52, 0x06, 0x41, 0x75, 0x74,
+	0x68, 0x6f, 0x72, 0x42, 0x12, 0x5a, 0x10, 0x2e, 0x2f, 0x3b, 0x6b, 0x61, 0x66, 0x6b, 0x61, 0x4d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -505,7 +735,7 @@ func file_kafka_proto_rawDescGZIP() []byte {
 	return file_kafka_proto_rawDescData
 }
 
-var file_kafka_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_kafka_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_kafka_proto_goTypes = []interface{}{
 	(*ProductCreate)(nil),       // 0: kafkaMessages.ProductCreate
 	(*ProductUpdate)(nil),       // 1: kafkaMessages.ProductUpdate
@@ -514,18 +744,25 @@ var file_kafka_proto_goTypes = []interface{}{
 	(*ProductUpdated)(nil),      // 4: kafkaMessages.ProductUpdated
 	(*ProductDelete)(nil),       // 5: kafkaMessages.ProductDelete
 	(*ProductDeleted)(nil),      // 6: kafkaMessages.ProductDeleted
-	(*timestamp.Timestamp)(nil), // 7: google.protobuf.Timestamp
+	(*AuthorCreate)(nil),        // 7: kafkaMessages.AuthorCreate
+	(*Author)(nil),              // 8: kafkaMessages.Author
+	(*AuthorCreated)(nil),       // 9: kafkaMessages.AuthorCreated
+	(*timestamp.Timestamp)(nil), // 10: google.protobuf.Timestamp
 }
 var file_kafka_proto_depIdxs = []int32{
-	7, // 0: kafkaMessages.Product.CreatedAt:type_name -> google.protobuf.Timestamp
-	7, // 1: kafkaMessages.Product.UpdatedAt:type_name -> google.protobuf.Timestamp
-	2, // 2: kafkaMessages.ProductCreated.Product:type_name -> kafkaMessages.Product
-	2, // 3: kafkaMessages.ProductUpdated.Product:type_name -> kafkaMessages.Product
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	10, // 0: kafkaMessages.Product.CreatedAt:type_name -> google.protobuf.Timestamp
+	10, // 1: kafkaMessages.Product.UpdatedAt:type_name -> google.protobuf.Timestamp
+	2,  // 2: kafkaMessages.ProductCreated.Product:type_name -> kafkaMessages.Product
+	2,  // 3: kafkaMessages.ProductUpdated.Product:type_name -> kafkaMessages.Product
+	10, // 4: kafkaMessages.Author.Birthday:type_name -> google.protobuf.Timestamp
+	10, // 5: kafkaMessages.Author.CreatedAt:type_name -> google.protobuf.Timestamp
+	10, // 6: kafkaMessages.Author.UpdatedAt:type_name -> google.protobuf.Timestamp
+	8,  // 7: kafkaMessages.AuthorCreated.Author:type_name -> kafkaMessages.Author
+	8,  // [8:8] is the sub-list for method output_type
+	8,  // [8:8] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_kafka_proto_init() }
@@ -618,6 +855,42 @@ func file_kafka_proto_init() {
 				return nil
 			}
 		}
+		file_kafka_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AuthorCreate); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_kafka_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Author); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_kafka_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AuthorCreated); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -625,7 +898,7 @@ func file_kafka_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_kafka_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -1,27 +1,33 @@
 .SILENT:
+.PHONY:
 #=================================
 # Command for App
 
-.PHONY: init
-init:
-
-.PHONY: info
 info: ps info_domen
 
-.PHONY: ps
 ps:
 	docker-compose ps
 
 # run app
-.PHONY: run
 run:
 	go run cmd/app/main.go
 
-# generate swagger documentation
-.PHONY: swagger
+#=================================
+# Generate
+
+# proto
+gen_proto: proto_author proto_author_message
+
+proto_author:
+	@echo Generating library-author microservice proto
+	cd proto/author && protoc --go_out=. --go-grpc_opt=require_unimplemented_servers=false --go-grpc_out=. author.proto
+
+proto_author_message:
+	@echo Generating library-author messages microservice proto
+	cd proto/author && protoc --go_out=. --go-grpc_opt=require_unimplemented_servers=false --go-grpc_out=. author_messages.proto
+
 swagger:
 	swag init -g internal/app/app.go
-
 #=================================
 # Command for test
 
