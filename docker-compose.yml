@@ -28,23 +28,23 @@ services:
     volumes:
       - ./docker/storage/library/pgdb:/var/lib/postgresql/data
 
-  postgesql:
-    image: postgres:13-alpine
-    container_name: mst__pg_db_s
-    hostname: mst__pg_db_s
-    expose:
-      - "5432"
-    ports:
-      - "5432:5432"
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=products
-      - POSTGRES_HOST=5432
-    command: -p 5432
-    volumes:
-      - ./docker/storage/service/pgdb:/var/lib/postgresql/data
+#  postgesql:
+#    image: postgres:13-alpine
+#    container_name: mst__pg_db_s
+#    hostname: mst__pg_db_s
+#    expose:
+#      - "5432"
+#    ports:
+#      - "5432:5432"
+#    restart: always
+#    environment:
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#      - POSTGRES_DB=products
+#      - POSTGRES_HOST=5432
+#    command: -p 5432
+#    volumes:
+#      - ./docker/storage/service/pgdb:/var/lib/postgresql/data
 
 #  prometheus:
 #    image: prom/prometheus:latest
@@ -100,72 +100,72 @@ services:
 #    volumes:
 #      - ./storage/public:/app
 
-  zoo1:
-    image: zookeeper:3.4.9
-    restart: always
-    hostname: zoo1
-    container_name: mst__zookeeper
-    ports:
-      - "2181:2181"
-    environment:
-      ZOO_MY_ID: 1
-      ZOO_PORT: 2181
-      ZOO_SERVERS: server.1=zoo1:2888:3888
-    volumes:
-      - ./docker/storage/zoo1/data:/data
-      - ./docker/storage/zoo1/datalog:/datalog
+#  zoo1:
+#    image: zookeeper:3.4.9
+#    restart: always
+#    hostname: zoo1
+#    container_name: mst__zookeeper
+#    ports:
+#      - "2181:2181"
+#    environment:
+#      ZOO_MY_ID: 1
+#      ZOO_PORT: 2181
+#      ZOO_SERVERS: server.1=zoo1:2888:3888
+#    volumes:
+#      - ./docker/storage/zoo1/data:/data
+#      - ./docker/storage/zoo1/datalog:/datalog
+#
+#  kafka1:
+#    image: confluentinc/cp-kafka:5.5.1
+#    container_name: mst__kafka
+#    restart: always
+#    hostname: kafka1
+#    ports:
+#      - "9092:9092"
+#      - "9999:9999"
+#    environment:
+#      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka1:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+#      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+#      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
+#      KAFKA_BROKER_ID: 1
+#      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+#      KAFKA_JMX_PORT: 9999
+#      KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-127.0.0.1}
+#    volumes:
+#      - ./docker/storage/kafka1/data:/var/lib/kafka/data
+#    depends_on:
+#      - zoo1
+#
+#  kafdrop:
+#    container_name: kafdrop
+#    image: obsidiandynamics/kafdrop
+#    restart: "no"
+#    ports:
+#      - "9000:9000"
+#    environment:
+#      KAFKA_BROKERCONNECT: "kafka1:19092"
+#    depends_on:
+#      - kafka1
 
-  kafka1:
-    image: confluentinc/cp-kafka:5.5.1
-    container_name: mst__kafka
-    restart: always
-    hostname: kafka1
-    ports:
-      - "9092:9092"
-      - "9999:9999"
-    environment:
-      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka1:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
-      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
-      KAFKA_BROKER_ID: 1
-      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_JMX_PORT: 9999
-      KAFKA_JMX_HOSTNAME: ${DOCKER_HOST_IP:-127.0.0.1}
-    volumes:
-      - ./docker/storage/kafka1/data:/var/lib/kafka/data
-    depends_on:
-      - zoo1
-
-  kafdrop:
-    container_name: kafdrop
-    image: obsidiandynamics/kafdrop
-    restart: "no"
-    ports:
-      - "9000:9000"
-    environment:
-      KAFKA_BROKERCONNECT: "kafka1:19092"
-    depends_on:
-      - kafka1
-
-  jaeger:
-    container_name: mst__jaeger
-    restart: always
-    image: jaegertracing/all-in-one:1.21
-    environment:
-      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
-    ports:
-      - "5775:5775/udp"
-      - "6831:6831/udp"
-      - "6832:6832/udp"
-      - "5778:5778"
-      - "16686:16686"
-      - "14268:14268"
-      - "14250:14250"
-      - "9411:9411"
+#  jaeger:
+#    container_name: mst__jaeger
+#    restart: always
+#    image: jaegertracing/all-in-one:1.21
+#    environment:
+#      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
+#    ports:
+#      - "5775:5775/udp"
+#      - "6831:6831/udp"
+#      - "6832:6832/udp"
+#      - "5778:5778"
+#      - "16686:16686"
+#      - "14268:14268"
+#      - "14250:14250"
+#      - "9411:9411"
 
   redis:
     image: redis:6-alpine
@@ -196,43 +196,43 @@ services:
       - ./storage/minio:/data
 #    command: minio server /data
 
-  mongodb:
-    image: mongo:latest
-    restart: always
-    container_name: mst__mongodb
-    hostname: mst__mongodb
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-      MONGODB_DATABASE: products
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./docker/storage/mongo:/data/db
-
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    ports:
-      - "9090:9090"
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
-    volumes:
-      - ./monitoring/prometheus_docker.yml:/etc/prometheus/prometheus.yml:ro
-
-  node_exporter:
-    container_name: node_exporter_container
-    restart: always
-    image: prom/node-exporter
-    ports:
-      - '9101:9100'
-
-  grafana:
-    container_name: grafana_container
-    restart: always
-    image: grafana/grafana
-    ports:
-      - '3005:3000'
+#  mongodb:
+#    image: mongo:latest
+#    restart: always
+#    container_name: mst__mongodb
+#    hostname: mst__mongodb
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: admin
+#      MONGO_INITDB_ROOT_PASSWORD: admin
+#      MONGODB_DATABASE: products
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - ./docker/storage/mongo:/data/db
+#
+#  prometheus:
+#    image: prom/prometheus:latest
+#    container_name: prometheus
+#    ports:
+#      - "9090:9090"
+#    command:
+#      - --config.file=/etc/prometheus/prometheus.yml
+#    volumes:
+#      - ./monitoring/prometheus_docker.yml:/etc/prometheus/prometheus.yml:ro
+#
+#  node_exporter:
+#    container_name: node_exporter_container
+#    restart: always
+#    image: prom/node-exporter
+#    ports:
+#      - '9101:9100'
+#
+#  grafana:
+#    container_name: grafana_container
+#    restart: always
+#    image: grafana/grafana
+#    ports:
+#      - '3005:3000'
 
 #volumes:
 #  ./docker/storage/mongo:
