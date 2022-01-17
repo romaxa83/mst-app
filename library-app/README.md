@@ -44,6 +44,9 @@
 - [ ] cache
     - [x] memory (example author-list)
     - [ ] redis
+- [ ] test
+    - [x] config
+
 
 ![-----------------------------------------------------](/storage/img/rainbow.png)
 ##### command

@@ -10,10 +10,6 @@ import (
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/romaxa83/mst-app/library-app/internal/config"
 	delivery "github.com/romaxa83/mst-app/library-app/internal/delivery/http"
-	"github.com/segmentio/kafka-go"
-	"net"
-	"strconv"
-
 	//kafkaConsumer "github.com/romaxa83/mst-app/library-app/internal/delivery/kafka"
 	"github.com/romaxa83/mst-app/library-app/internal/models"
 	"github.com/romaxa83/mst-app/library-app/internal/repositories"
@@ -24,8 +20,6 @@ import (
 	"github.com/romaxa83/mst-app/library-app/pkg/db"
 	"github.com/romaxa83/mst-app/library-app/pkg/logger"
 	"github.com/romaxa83/mst-app/library-app/pkg/storage"
-	kafkaClient "github.com/romaxa83/mst-app/pkg/kafka"
-	zapLogger "github.com/romaxa83/mst-app/pkg/logger"
 	"golang.org/x/text/language"
 	"net/http"
 	"os"
@@ -88,21 +82,21 @@ func Run() {
 
 	// todo зарефакторить логгер
 	// kafka использует zapLogger , а здесь используется logrus
-	zapLoggerConfig := zapLogger.NewLoggerConfig("debug", false, "json")
-	zapL := zapLogger.NewAppLogger(zapLoggerConfig)
-	kafkaProducer := kafkaClient.NewProducer(zapL, cfg.Kafka.Brokers)
-	defer kafkaProducer.Close() // nolint: errcheck
-	logger.Info("Init kafkaProducer")
-
-	var kafkaConn *kafka.Conn
-	controller, err := kafkaConn.Controller()
-	if err != nil {
-		logger.Error("kafkaConn.Controller:", err)
-		return
-	}
-
-	controllerURI := net.JoinHostPort(controller.Host, strconv.Itoa(controller.Port))
-	logger.Warnf("controllerURI %+v", controllerURI)
+	//zapLoggerConfig := zapLogger.NewLoggerConfig("debug", false, "json")
+	//zapL := zapLogger.NewAppLogger(zapLoggerConfig)
+	//kafkaProducer := kafkaClient.NewProducer(zapL, cfg.Kafka.Brokers)
+	//defer kafkaProducer.Close() // nolint: errcheck
+	//logger.Info("Init kafkaProducer")
+	//
+	//var kafkaConn *kafka.Conn
+	//controller, err := kafkaConn.Controller()
+	//if err != nil {
+	//	logger.Error("kafkaConn.Controller:", err)
+	//	return
+	//}
+	//
+	//controllerURI := net.JoinHostPort(controller.Host, strconv.Itoa(controller.Port))
+	//logger.Warnf("controllerURI %+v", controllerURI)
 
 	//if cfg.Kafka.InitTopics {
 	//	initKafkaTopics(cfg)
@@ -197,74 +191,4 @@ func newStorageProvider(cfg *config.Config) (storage.Provider, error) {
 	provider := storage.NewFileStorage(client, cfg.FileStorage.Bucket, cfg.FileStorage.Endpoint)
 
 	return provider, nil
-}
-
-func getConsumerGroupTopics(cfg *config.Config) []string {
-	return []string{
-		cfg.KafkaTopics.AuthorCreate.TopicName,
-	}
-}
-
-func initKafkaTopics(cfg *config.Config) {
-
-	//s.log.Infof("kafka controller uri: %s", controllerURI)
-	//
-	//conn, err := kafka.DialContext(ctx, "tcp", controllerURI)
-	//if err != nil {
-	//	s.log.WarnMsg("initKafkaTopics.DialContext", err)
-	//	return
-	//}
-	//defer conn.Close() // nolint: errcheck
-	//
-	//s.log.Infof("established new kafka controller connection: %s", controllerURI)
-	//
-	//productCreateTopic := kafka.TopicConfig{
-	//	Topic:             s.cfg.KafkaTopics.ProductCreate.TopicName,
-	//	NumPartitions:     s.cfg.KafkaTopics.ProductCreate.Partitions,
-	//	ReplicationFactor: s.cfg.KafkaTopics.ProductCreate.ReplicationFactor,
-	//}
-	//
-	//productCreatedTopic := kafka.TopicConfig{
-	//	Topic:             s.cfg.KafkaTopics.ProductCreated.TopicName,
-	//	NumPartitions:     s.cfg.KafkaTopics.ProductCreated.Partitions,
-	//	ReplicationFactor: s.cfg.KafkaTopics.ProductCreated.ReplicationFactor,
-	//}
-	//
-	//productUpdateTopic := kafka.TopicConfig{
-	//	Topic:             s.cfg.KafkaTopics.ProductUpdate.TopicName,
-	//	NumPartitions:     s.cfg.KafkaTopics.ProductUpdate.Partitions,
-	//	ReplicationFactor: s.cfg.KafkaTopics.ProductUpdate.ReplicationFactor,
-	//}
-	//
-	//productUpdatedTopic := kafka.TopicConfig{
-	//	Topic:             s.cfg.KafkaTopics.ProductUpdated.TopicName,
-	//	NumPartitions:     s.cfg.KafkaTopics.ProductUpdated.Partitions,
-	//	ReplicationFactor: s.cfg.KafkaTopics.ProductUpdated.ReplicationFactor,
-	//}
-	//
-	//productDeleteTopic := kafka.TopicConfig{
-	//	Topic:             s.cfg.KafkaTopics.ProductDelete.TopicName,
-	//	NumPartitions:     s.cfg.KafkaTopics.ProductDelete.Partitions,
-	//	ReplicationFactor: s.cfg.KafkaTopics.ProductDelete.ReplicationFactor,
-	//}
-	//
-	//productDeletedTopic := kafka.TopicConfig{
-	//	Topic:             s.cfg.KafkaTopics.ProductDeleted.TopicName,
-	//	NumPartitions:     s.cfg.KafkaTopics.ProductDeleted.Partitions,
-	//	ReplicationFactor: s.cfg.KafkaTopics.ProductDeleted.ReplicationFactor,
-	//}
-	//
-	//if err := conn.CreateTopics(
-	//	productCreateTopic,
-	//	productUpdateTopic,
-	//	productCreatedTopic,
-	//	productUpdatedTopic,
-	//	productDeleteTopic,
-	//	productDeletedTopic,
-	//); err != nil {
-	//	s.log.WarnMsg("kafkaConn.CreateTopics", err)
-	//	return
-	//}
-
-	//s.log.Infof("kafka topics created or already exists: %+v", []kafka.TopicConfig{productCreateTopic, productUpdateTopic, productCreatedTopic, productUpdatedTopic, productDeleteTopic, productDeletedTopic})
 }
