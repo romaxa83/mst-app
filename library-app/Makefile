@@ -37,19 +37,17 @@ swagger:
 test-run:
 	go test -v ./...
 
-.PHONY: test
 test:
 	go test -v ./...
 	#go test --short -coverprofile=cover.out -v ./...
 #go test -coverpkg=./... -coverprofile=c.out ./...
-.PHONY: test-coverage
+
 test-coverage:
 	go tool cover -func=cover.out
 
 #=================================
 # Info for App
 
-.PHONY: info_domen
 info_domen:
 	echo '---------------------------------';
 	echo '----------DEV--------------------';

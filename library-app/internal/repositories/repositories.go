@@ -1,5 +1,7 @@
 package repositories
 
+//go:generate mockgen -source=repositories.go -destination=mocks/mock.go
+
 import (
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/input"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/resources"

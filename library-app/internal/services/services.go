@@ -1,5 +1,7 @@
 package services
 
+//go:generate mockgen -source=services.go -destination=mocks/mock.go
+
 import (
 	"context"
 	"github.com/romaxa83/mst-app/library-app/internal/delivery/http/input"
