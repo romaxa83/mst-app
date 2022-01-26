@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/romaxa83/mst-app/pkg/tracing"
 	"os"
 	"reflect"
 	"testing"
@@ -104,12 +103,6 @@ func TestInit(t *testing.T) {
 					Default: "en",
 				},
 				CacheTTL: time.Second * 10,
-				Jaeger: &tracing.Config{
-					ServiceName: "library_service",
-					HostPort:    "localhost:6831",
-					Enable:      true,
-					LogSpans:    false,
-				},
 			},
 		},
 	}

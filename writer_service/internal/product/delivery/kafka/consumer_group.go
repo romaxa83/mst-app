@@ -28,6 +28,7 @@ func NewProductMessageProcessor(log logger.Logger, cfg *config.Config, v *valida
 }
 
 func (s *productMessageProcessor) ProcessMessages(ctx context.Context, r *kafka.Reader, wg *sync.WaitGroup, workerID int) {
+
 	defer wg.Done()
 
 	for {

@@ -1,11 +1,9 @@
 package config
 
 import (
-	"github.com/romaxa83/mst-app/pkg/tracing"
+	"github.com/spf13/viper"
 	"os"
 	"time"
-
-	"github.com/spf13/viper"
 )
 
 const (
@@ -31,10 +29,6 @@ type (
 		Locale      Locale            `mapstructure:"locale"`
 		Limiter     LimiterConfig     `mapstructure:"limiter"`
 		CacheTTL    time.Duration     `mapstructure:"ttl"`
-		//KafkaTopics KafkaTopics         `mapstructure:"kafkaTopics"`
-		//GRPC        GRPC                `mapstructure:"grpc"`
-		//Kafka       *kafkaClient.Config `mapstructure:"kafka"`
-		Jaeger *tracing.Config `mapstructure:"jaeger"`
 	}
 
 	HTTPConfig struct {
@@ -70,16 +64,6 @@ type (
 	Locale struct {
 		Default string `mapstructure:"default"`
 	}
-
-	//GRPC struct {
-	//	Port        string `mapstructure:"port"`
-	//	Development bool   `mapstructure:"development"`
-	//}
-	//
-	//KafkaTopics struct {
-	//	AuthorCreate  kafkaClient.TopicConfig `mapstructure:"authorCreate"`
-	//	AuthorCreated kafkaClient.TopicConfig `mapstructure:"authorCreated"`
-	//}
 )
 
 // Init populates Config struct with values from config file
@@ -121,22 +105,6 @@ func unmarshal(cfg *Config) error {
 	if err := viper.UnmarshalKey("fileStorage", &cfg.FileStorage); err != nil {
 		return err
 	}
-
-	//if err := viper.UnmarshalKey("grpc", &cfg.GRPC); err != nil {
-	//	return err
-	//}
-
-	//if err := viper.UnmarshalKey("kafka", &cfg.Kafka); err != nil {
-	//	return err
-	//}
-
-	if err := viper.UnmarshalKey("jaeger", &cfg.Jaeger); err != nil {
-		return err
-	}
-
-	//if err := viper.UnmarshalKey("kafkaTopics", &cfg.KafkaTopics); err != nil {
-	//	return err
-	//}
 
 	if err := viper.UnmarshalKey("limiter", &cfg.Limiter); err != nil {
 		return err

@@ -28,23 +28,23 @@ services:
     volumes:
       - ./docker/storage/library/pgdb:/var/lib/postgresql/data
 
-#  postgesql:
-#    image: postgres:13-alpine
-#    container_name: mst__pg_db_s
-#    hostname: mst__pg_db_s
-#    expose:
-#      - "5432"
-#    ports:
-#      - "5432:5432"
-#    restart: always
-#    environment:
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=postgres
-#      - POSTGRES_DB=products
-#      - POSTGRES_HOST=5432
-#    command: -p 5432
-#    volumes:
-#      - ./docker/storage/service/pgdb:/var/lib/postgresql/data
+  postgesql:
+    image: postgres:13-alpine
+    container_name: mst__pg_db_s
+    hostname: mst__pg_db_s
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=products
+      - POSTGRES_HOST=5432
+    command: -p 5432
+    volumes:
+      - ./docker/storage/service/pgdb:/var/lib/postgresql/data
 
 #  prometheus:
 #    image: prom/prometheus:latest
@@ -114,7 +114,7 @@ services:
 #    volumes:
 #      - ./docker/storage/zoo1/data:/data
 #      - ./docker/storage/zoo1/datalog:/datalog
-#
+
 #  kafka1:
 #    image: confluentinc/cp-kafka:5.5.1
 #    container_name: mst__kafka
@@ -139,7 +139,7 @@ services:
 #      - ./docker/storage/kafka1/data:/var/lib/kafka/data
 #    depends_on:
 #      - zoo1
-#
+
 #  kafdrop:
 #    container_name: kafdrop
 #    image: obsidiandynamics/kafdrop
@@ -196,19 +196,19 @@ services:
       - ./storage/minio:/data
 #    command: minio server /data
 
-#  mongodb:
-#    image: mongo:latest
-#    restart: always
-#    container_name: mst__mongodb
-#    hostname: mst__mongodb
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: admin
-#      MONGO_INITDB_ROOT_PASSWORD: admin
-#      MONGODB_DATABASE: products
-#    ports:
-#      - "27017:27017"
-#    volumes:
-#      - ./docker/storage/mongo:/data/db
+  mongodb:
+    image: mongo:latest
+    restart: always
+    container_name: mst__mongodb
+    hostname: mst__mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGODB_DATABASE: products
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker/storage/mongo:/data/db
 #
 #  prometheus:
 #    image: prom/prometheus:latest

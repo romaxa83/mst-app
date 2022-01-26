@@ -80,35 +80,6 @@ func Run() {
 		logger.Error("failed init db: %s", err.Error())
 	}
 
-	// todo зарефакторить логгер
-	// kafka использует zapLogger , а здесь используется logrus
-	//zapLoggerConfig := zapLogger.NewLoggerConfig("debug", false, "json")
-	//zapL := zapLogger.NewAppLogger(zapLoggerConfig)
-	//kafkaProducer := kafkaClient.NewProducer(zapL, cfg.Kafka.Brokers)
-	//defer kafkaProducer.Close() // nolint: errcheck
-	//logger.Info("Init kafkaProducer")
-	//
-	//var kafkaConn *kafka.Conn
-	//controller, err := kafkaConn.Controller()
-	//if err != nil {
-	//	logger.Error("kafkaConn.Controller:", err)
-	//	return
-	//}
-	//
-	//controllerURI := net.JoinHostPort(controller.Host, strconv.Itoa(controller.Port))
-	//logger.Warnf("controllerURI %+v", controllerURI)
-
-	//if cfg.Kafka.InitTopics {
-	//	initKafkaTopics(cfg)
-	//}
-
-	//k := kafkaMessages.
-
-	//_ = kafkaConsumer.NewAuthorMessageProcessor(cfg)
-	//authorMessageProcessor := kafkaConsumer.NewAuthorMessageProcessor(cfg)
-	//cg := kafkaClient.NewConsumerGroup(cfg.Kafka.Brokers, cfg.Kafka.GroupID, zapL)
-	//go cg.ConsumeTopic(ctx, getConsumerGroupTopics(cfg), kafkaConsumer.PoolSize, authorMessageProcessor.ProcessMessages)
-
 	// cache
 	memCache := cache.NewMemoryCache()
 	logger.Info("Init memory cache")
